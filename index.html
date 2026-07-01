@@ -1,0 +1,330 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Приглашение на свадьбу | Сагын & Айнуру</title>
+    <style>
+        /* Стили в духе минимализма */
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+            font-family: 'Playfair Display', 'Times New Roman', serif;
+        }
+
+        body {
+            background-color: #fcfbfa;
+            color: #2c2c2c;
+            line-height: 1.6;
+            text-align: center;
+            overflow-x: hidden;
+        }
+
+        .container {
+            max-width: 600px;
+            margin: 0 auto;
+            padding: 40px 20px;
+        }
+
+        /* Экраны и блоки */
+        section {
+            padding: 60px 20px;
+            opacity: 0;
+            transform: translateY(20px);
+            animation: fadeInUp 1.2s cubic-bezier(0.25, 1, 0.5, 1) forwards;
+        }
+
+        section:nth-child(1) { animation-delay: 0.2s; }
+        section:nth-child(2) { animation-delay: 0.6s; }
+        section:nth-child(3) { animation-delay: 1s; }
+        section:nth-child(4) { animation-delay: 1.4s; }
+        section:nth-child(5) { animation-delay: 1.8s; }
+
+        h1 {
+            font-size: 2.8rem;
+            font-weight: 300;
+            letter-spacing: 2px;
+            margin-bottom: 20px;
+            color: #1a1a1a;
+        }
+
+        h2 {
+            font-size: 1.8rem;
+            font-weight: 300;
+            letter-spacing: 1px;
+            margin-bottom: 20px;
+            position: relative;
+            display: inline-block;
+        }
+
+        h2::after {
+            content: '';
+            display: block;
+            width: 40px;
+            height: 1px;
+            background-color: #9c8c7c;
+            margin: 15px auto 0 auto;
+        }
+
+        p {
+            font-size: 1.1rem;
+            font-family: 'Montserrat', sans-serif;
+            font-weight: 300;
+            color: #555;
+            margin-bottom: 15px;
+        }
+
+        .date-box {
+            border-top: 1px solid #e0dad5;
+            border-bottom: 1px solid #e0dad5;
+            padding: 15px 0;
+            margin: 30px auto;
+            max-width: 280px;
+            font-size: 1.2rem;
+            letter-spacing: 1px;
+        }
+
+        /* Кнопки */
+        .btn {
+            display: inline-block;
+            padding: 12px 30px;
+            background-color: #2c2c2c;
+            color: #fff;
+            text-decoration: none;
+            font-family: 'Montserrat', sans-serif;
+            font-size: 0.9rem;
+            letter-spacing: 2px;
+            text-transform: uppercase;
+            border: none;
+            border-radius: 0;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            margin-top: 15px;
+        }
+
+        .btn:hover {
+            background-color: #555;
+            transform: translateY(-2px);
+        }
+
+        .btn-music {
+            background-color: transparent;
+            color: #2c2c2c;
+            border: 1px solid #2c2c2c;
+            margin-bottom: 40px;
+        }
+
+        .btn-music:hover {
+            background-color: #2c2c2c;
+            color: #fff;
+        }
+
+        /* Детали (дресс-код) */
+        .details-grid {
+            margin-top: 30px;
+        }
+
+        .details-item {
+            margin-bottom: 40px;
+            padding: 0 10px;
+        }
+
+        .color-palette {
+            display: flex;
+            justify-content: center;
+            gap: 15px;
+            margin-top: 15px;
+        }
+
+        .color-circle {
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            border: 1px solid #e0dad5;
+        }
+
+        /* RSVP Форма */
+        .rsvp-form {
+            background-color: #f7f5f2;
+            padding: 30px 20px;
+            margin-top: 20px;
+            text-align: left;
+        }
+
+        .form-group {
+            margin-bottom: 20px;
+        }
+
+        label {
+            display: block;
+            font-family: 'Montserrat', sans-serif;
+            font-size: 0.9rem;
+            margin-bottom: 8px;
+            color: #333;
+        }
+
+        input[type="text"] {
+            width: 100%;
+            padding: 10px;
+            border: 1px solid #d3cac0;
+            background-color: #fff;
+            font-size: 1rem;
+        }
+
+        .radio-group, .checkbox-group {
+            display: flex;
+            flex-direction: column;
+            gap: 10px;
+            font-family: 'Montserrat', sans-serif;
+            font-size: 1rem;
+        }
+
+        .radio-label, .checkbox-label {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            cursor: pointer;
+        }
+
+        /* Анимации */
+        @keyframes fadeInUp {
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        /* Стили для музыкального плеера (скрытого) */
+        #audio-player {
+            display: none;
+        }
+    </style>
+    <!-- Подключаем изящные шрифты -->
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@300;400&family=Playfair+Display:ital,wght@0,400;1,400&display=swap" rel="stylesheet">
+</head>
+<body>
+
+    <!-- Скрытый аудиоэлемент (вставьте прямую ссылку на .mp3) -->
+    <audio id="audio-player" loop>
+        <source src="https://www.soundhelix.com/examples/mp3/SoundHelix-Song-1.mp3" type="audio/mpeg">
+    </audio>
+
+    <div class="container">
+
+        <!-- Блок 1: Главный экран -->
+        <section>
+            <button class="btn btn-music" id="music-trigger" onclick="toggleMusic()">🔊 Включить музыку атмосферы</button>
+            <h1>Сагын<br>&<br>Айнуру</h1>
+            <p style="font-style: italic; letter-spacing: 1px; margin-top: 10px;">Один день. Одна любовь.</p>
+            <div class="date-box">
+                31.07.2026<br>в 17:00
+            </div>
+        </section>
+
+        <!-- Блок 2: Текст приглашения -->
+        <section>
+            <h2>Приглашение</h2>
+            <p>В нашей жизни предстоит особенное и очень важное событие — день нашей свадьбы.</p>
+            <p>Мы хотим разделить этот счастливый момент с самыми близкими людьми. Ждем вас, чтобы вместе создать незабываемые воспоминания!</p>
+        </section>
+
+        <!-- Блок 3: Место проведения -->
+        <section>
+            <h2>Локация</h2>
+            <p>Торжество состоится в прекрасном месте, найти которое вам поможет карта ниже. Будем рады видеть вас к 17:00!</p>
+            <a href="https://go.2gis.com/FgJRM" target="_blank" class="btn">Открыть карту 2ГИС 📍</a>
+        </section>
+
+        <!-- Блок 4: Детали торжества -->
+        <section class="details-grid">
+            <div class="details-item">
+                <h2>Дресс-код</h2>
+                <p>Будем признательны, если вы поддержите стиль нашей свадьбы и выберете наряды в пастельных, бежевых или классических темных тонах.</p>
+                <div class="color-palette">
+                    <div class="color-circle" style="background-color: #f5f0ea;"></div>
+                    <div class="color-circle" style="background-color: #e3dac9;"></div>
+                    <div class="color-circle" style="background-color: #bfae9a;"></div>
+                    <div class="color-circle" style="background-color: #4a4743;"></div>
+                    <div class="color-circle" style="background-color: #1a1a1a;"></div>
+                </div>
+            </div>
+
+            <div class="details-item">
+                <h2>Пожелания</h2>
+                <p>Ваши улыбки и присутствие — главный подарок для нас. Но если вы захотите сделать нам материальный подарок, мы будем очень рады конверту.</p>
+            </div>
+        </section>
+
+        <!-- Блок 5: RSVP Форма -->
+        <section>
+            <h2>Подтверждение</h2>
+            <p>Пожалуйста, подтвердите ваше присутствие до 15 июля 2026 года.</p>
+            
+            <form class="rsvp-form" id="wedding-form" onsubmit="sendResponse(event)">
+                <div class="form-group">
+                    <label for="guest-name">Ваше Имя и Фамилия</label>
+                    <input type="text" id="guest-name" required placeholder="Введите ваше имя">
+                </div>
+
+                <div class="form-group">
+                    <label>Присутствие</label>
+                    <div class="radio-group">
+                        <label class="radio-label"><input type="radio" name="attendance" value="приду" checked> Я с удовольствием приду</label>
+                        <label class="radio-label"><input type="radio" name="attendance" value="не смогу"> К сожалению, не смогу</label>
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <label>Предпочтения по напиткам</label>
+                    <div class="checkbox-group">
+                        <label class="checkbox-label"><input type="checkbox" name="drink" value="Вино"> Вино</label>
+                        <label class="checkbox-label"><input type="checkbox" name="drink" value="Крепкие напитки"> Крепкие напитки</label>
+                        <label class="checkbox-label"><input type="checkbox" name="drink" value="Безалкогольные"> Безалкогольные напитки</label>
+                    </div>
+                </div>
+
+                <button type="submit" class="btn" style="width: 100%;">Отправить ответ</button>
+            </form>
+        </section>
+
+    </div>
+
+    <script>
+        // Функция управления музыкой
+        function toggleMusic() {
+            var player = document.getElementById('audio-player');
+            var btn = document.getElementById('music-trigger');
+            
+            if (player.paused) {
+                player.play().then(() => {
+                    btn.innerText = "⏸ Выключить музыку";
+                }).catch(error => {
+                    alert("Пожалуйста, попробуйте еще раз кликнуть по экрану для запуска звука.");
+                });
+            } else {
+                player.pause();
+                btn.innerText = "🔊 Включить музыку";
+            }
+        }
+
+        // Функция отправки ответов (Генерирует текст для WhatsApp жениха/невесты)
+        function sendResponse(e) {
+            e.preventDefault();
+            var name = document.getElementById('guest-name').value;
+            var attendance = document.querySelector('input[name="attendance"]:checked').value;
+            
+            var drinks = [];
+            document.querySelectorAll('input[name="drink"]:checked').forEach(function(el) {
+                drinks.push(el.value);
+            });
+
+            var text = "Привет! Ответ на приглашение от: " + name + ". Присутствие: " + attendance + ". Напитки: " + (drinks.join(', ') || 'не выбрано');
+            
+            // Замените ТЕКСТ_НОМЕРА на свой номер телефона без плюса (например, 996XXXXXXXXX)
+            var whatsappUrl = "https://wa.me/?text=" + encodeURIComponent(text);
+            window.open(whatsappUrl, '_blank');
+        }
+    </script>
+</body>
+</html>
