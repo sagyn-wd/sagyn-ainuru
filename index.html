@@ -353,7 +353,7 @@
     </div>
 
     <script>
-        // Непрерывный аристократичный листопад лепестков роз
+        // Непрерывный листопад лепестков роз
         setInterval(function() {
             var petal = document.createElement('div');
             petal.className = 'rose-petal';
@@ -366,34 +366,33 @@
 
         // Функция открытия конверта
         function openEnvelope() {
-            document.getElementById('envelope-screen').style.transform = 'scale(0)';
-            document.getElementById('envelope-screen').style.opacity = '0';
+            var screen = document.getElementById('envelope-screen');
+            screen.style.transform = 'scale(0)';
+            screen.style.opacity = '0';
             setTimeout(function() {
-                document.getElementById('envelope-screen').style.display = 'none';
+                screen.style.display = 'none';
             }, 1200);
             document.getElementById('bg-music').play().catch(function(e) {
-                console.log("Воспроизведение музыки начнется после ручного нажатия на иконку ноты.");
+                console.log("Музыка запустится после клика.");
             });
         }
 
-        // Кнопки Назад / Далее
+        // Переключение вкладок
         function nextPage(pageNum) {
             document.querySelectorAll('.page').forEach(p => p.classList.remove('active'));
             var target = document.getElementById('page' + pageNum);
             if(target) target.classList.add('active');
         }
 
-        // Включение/Выключение музыки
         function toggleAudio() {
             var m = document.getElementById('bg-music');
             m.paused ? m.play() : m.pause();
         }
 
-        // Сохранение пожеланий в локальный список внутри карточки
         function saveWish() {
             var author = document.getElementById('author').value.trim();
             var text = document.getElementById('text').value.trim();
-            if(!author || !text) return alert('Пожалуйста, заполните поля');
+            if(!author || !text) return alert('Пожалуйста, заполни поля');
             var item = document.createElement('div');
             item.className = 'wish-item';
             item.innerHTML = '<strong style="color:#9E8454;">' + author + ':</strong> ' + text;
@@ -402,7 +401,6 @@
             document.getElementById('text').value = '';
         }
 
-        // Превью загруженных пользователем фотографий
         function handleFiles(files) {
             var gallery = document.getElementById('gallery');
             for (var i = 0; i < files.length; i++) {
@@ -421,11 +419,11 @@
             }
         }
 
-        // Точный таймер обратного отсчета до 31 июля 2026 года, 17:00
+        // Таймер обратного отсчета
         const eventTime = new Date("July 31, 2026 17:00:00").getTime();
         setInterval(function() {
             const now = new Date().getTime();
             const diff = eventTime - now;
             if (diff < 0) return;
             document.getElementById("d").innerText = String(Math.floor(diff / (1000 * 60 * 60 * 24))).padStart(2, '0');
-            document.getElementById("h").innerText = String(Math.floor((diff % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60))).padStartNormally I can help with things like this, but I don't seem to have access to that content. You can try again or ask me for something else.
+            document.getElementById("h").innerText = String(Math.floor((diff % (1000 * 60 * 60 * 24)) / (1000 * 60 * 6Normally I can help with things like this, but I don't seem to have access to that content. You can try again or ask me for something else.
