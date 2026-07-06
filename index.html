@@ -14,7 +14,7 @@
             background-color: #FAF9F6; /* Шелковый белый */
             color: #2A2F35;
             font-family: 'Cormorant Garamond', serif;
-            overflow: hidden;
+            overflow-x: hidden;
         }
 
         /* АНИМАЦИЯ ЛЕПЕСТКОВ РОЗ */
@@ -220,7 +220,7 @@
         </div>
     </div>
 
-    <!-- СТРАНИЦА 3: ОСНОВНОЙ ТЕКТ ПРИГЛАШЕНИЯ -->
+    <!-- СТРАНИЦА 3: ОСНОВНОЙ ТЕКСТ ПРИГЛАШЕНИЯ -->
     <div id="page3" class="page">
         <div class="content-card">
             <!-- Реалистичные 3D кольца -->
@@ -285,7 +285,7 @@
                 <button onclick="saveWish()" class="btn-nav" style="width:100%;">Оставить слово</button>
                 
                 <div class="wishes-output" id="output-box">
-                    <div class="wish-item"><strong style="color:#9E8454;">Арстан и Нурай:</strong> Счастья, любви и долгих совместных лет жизни молодым! Рады видеть всех гостей!</div>
+                    <div class="wish-item"><strong style="color:#9E8454;">Arman & Nura:</strong> Счастья, любви и долгих совместных лет жизни молодым! Рады видеть всех гостей!</div>
                 </div>
             </div>
 
@@ -372,8 +372,10 @@
             setTimeout(function() {
                 screen.style.display = 'none';
             }, 1200);
-            document.getElementById('bg-music').play().catch(function(e) {
-                console.log("Музыка запустится после клика.");
+            
+            var music = document.getElementById('bg-music');
+            music.play().catch(function(e) {
+                console.log("Автовоспроизведение заблокировано браузером. Музыка включится по нажатию на ноту.");
             });
         }
 
@@ -384,15 +386,17 @@
             if(target) target.classList.add('active');
         }
 
+        // Включение/выключение музыки
         function toggleAudio() {
             var m = document.getElementById('bg-music');
             m.paused ? m.play() : m.pause();
         }
 
+        // Сохранение пожеланий
         function saveWish() {
             var author = document.getElementById('author').value.trim();
             var text = document.getElementById('text').value.trim();
-            if(!author || !text) return alert('Пожалуйста, заполни поля');
+            if(!author || !text) return alert('Пожалуйста, заполните поля');
             var item = document.createElement('div');
             item.className = 'wish-item';
             item.innerHTML = '<strong style="color:#9E8454;">' + author + ':</strong> ' + text;
@@ -401,6 +405,7 @@
             document.getElementById('text').value = '';
         }
 
+        // Загрузка фото в галерею
         function handleFiles(files) {
             var gallery = document.getElementById('gallery');
             for (var i = 0; i < files.length; i++) {
@@ -419,11 +424,25 @@
             }
         }
 
-        // Таймер обратного отсчета
+        // Таймер обратного отсчета до 31 июля 2026 года, 17:00
         const eventTime = new Date("July 31, 2026 17:00:00").getTime();
         setInterval(function() {
             const now = new Date().getTime();
             const diff = eventTime - now;
-            if (diff < 0) return;
+            
+            if (diff < 0) {
+                document.getElementById("d").innerText = "00";
+                document.getElementById("h").innerText = "00";
+                document.getElementById("m").innerText = "00";
+                document.getElementById("s").innerText = "00";
+                return;
+            }
+            
             document.getElementById("d").innerText = String(Math.floor(diff / (1000 * 60 * 60 * 24))).padStart(2, '0');
-            document.getElementById("h").innerText = String(Math.floor((diff % (1000 * 60 * 60 * 24)) / (1000 * 60 * 6Normally I can help with things like this, but I don't seem to have access to that content. You can try again or ask me for something else.
+            document.getElementById("h").innerText = String(Math.floor((diff % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60))).padStart(2, '0');
+            document.getElementById("m").innerText = String(Math.floor((diff % (1000 * 60 * 60)) / (1000 * 60))).padStart(2, '0');
+            document.getElementById("s").innerText = String(Math.floor((diff % (1000 * 60)) / 1000)).padStart(2, '0');
+        }, 1000);
+    </script>
+</body>
+</html>
