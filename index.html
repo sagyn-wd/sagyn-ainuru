@@ -353,7 +353,7 @@
     <div id="page2" class="page">
         <div class="content-card">
             <h2>Слово молодожёнов</h2>
-            <p class="invitation-text" style="line-height: 1.8; font-size: 1.2rem;">В жизни каждого человека бывают моменты, когда весь мир замирает и открывается новая, чистая глава. Мы нашли это невероятное счастье и вдохновение друг в друге.</p>
+            <p class="invitation-text" style="line-height: 1.8; font-size: 1.2rem;">В жизни каждого человека бывают моменты, когда весь мир замирает и открывается новая, чистая глава. Мы нашли это невероятное счастье и вдохновение друг в другe.</p>
             <p class="invitation-text" style="line-height: 1.8; font-size: 1.2rem;">И перед тем как сделать этот самый важный шаг в наше общее будущее, мы хотим искренне пригласить вас стать главными свидетелями начала нашей большой истории.</p>
 
             <div class="couple-names">Сагын & Айнуру</div>
@@ -419,6 +419,7 @@
             <p style="font-size: 1.45rem; font-weight: 700; color: #9E8454; margin-bottom: 6px;">Ресторан "Олигарх"</p>
             <p style="font-size: 1.15rem; font-style: italic; margin-bottom: 12px; color:#4A5568;">г. Ош, микрорайон Анар, 1а</p>
             <p style="font-size: 1.1rem; margin-bottom: 20px; font-style: italic; color: #2A2F35; font-weight: 600;">31 июля 2026 года в 17:00</p>
+            <a href="https://2gis.
             <a href="https://2gis.kg/osh/search/%D0%9E%D0%BB%D0%B8%D0%B3%D0%B0%D1%80%D1%85" target="_blank" class="btn-nav" style="display:inline-block; margin-bottom:10px;">Открыть карту 2ГИС 📍</a>
 
             <div class="nav-box">
@@ -486,6 +487,7 @@
         }
         window.addEventListener('DOMContentLoaded', loadGuestName);
 
+        // БЕЗОПАСНОЕ ОТКРЫТИЕ КОНВЕРТА БЕЗ ЗАВИСАНИЙ JavaScript
         function openEnvelope() {
             let screen = document.getElementById('envelope-screen');
             if (!screen) return;
@@ -493,6 +495,7 @@
             let centerX = window.innerWidth / 2;
             let centerY = window.innerHeight / 2;
 
+            // Взрыв сердечек
             for (let i = 0; i < 30; i++) {
                 let p = document.createElement('div');
                 p.className = 'heart-particle';
@@ -515,8 +518,10 @@
                 setTimeout(() => p.remove(), 2000);
             }
 
+            // Полностью прячем конверт
             screen.style.display = 'none';
 
+            // Безопасно запускаем музыку (браузеры не заблокируют открытие страниц из-за аудиоошибки)
             audioPlayer.src = mp3Url;
             audioPlayer.play().then(() => {
                 isMusicPlaying = true;
@@ -609,11 +614,6 @@
                 document.getElementById('hours').innerText = Math.floor((diff % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
                 document.getElementById('minutes').innerText = Math.floor((diff % (1000 * 60 * 60)) / (1000 * 60));
                 document.getElementById('seconds').innerText = Math.floor((diff % (1000 * 60)) / 1000);
-            } else {
-                document.getElementById('days').innerText = "00";
-                document.getElementById('hours').innerText = "00";
-                document.getElementById('minutes').innerText = "00";
-                document.getElementById('seconds').innerText = "00";
             }
         }, 1000);
     </script>
