@@ -353,7 +353,7 @@
     <div id="page2" class="page">
         <div class="content-card">
             <h2>Слово молодожёнов</h2>
-            <p class="invitation-text" style="line-height: 1.8; font-size: 1.2rem;">В жизни каждого человека бывают моменты, когда весь мир замирает и открывается новая, чистая глава. Мы нашли это невероятное счастье и вдохновение друг в другe.</p>
+            <p class="invitation-text" style="line-height: 1.8; font-size: 1.2rem;">В жизни каждого человека бывают моменты, когда весь мир замирает и открывается новая, чистая глава. Мы нашли это невероятное счастье и вдохновение друг в друге.</p>
             <p class="invitation-text" style="line-height: 1.8; font-size: 1.2rem;">И перед тем как сделать этот самый важный шаг в наше общее будущее, мы хотим искренне пригласить вас стать главными свидетелями начала нашей большой истории.</p>
 
             <div class="couple-names">Сагын & Айнуру</div>
@@ -419,8 +419,7 @@
             <p style="font-size: 1.45rem; font-weight: 700; color: #9E8454; margin-bottom: 6px;">Ресторан "Олигарх"</p>
             <p style="font-size: 1.15rem; font-style: italic; margin-bottom: 12px; color:#4A5568;">г. Ош, микрорайон Анар, 1а</p>
             <p style="font-size: 1.1rem; margin-bottom: 20px; font-style: italic; color: #2A2F35; font-weight: 600;">31 июля 2026 года в 17:00</p>
-            <a href="https://2gis.
-            <a href="https:https://go.2gis.com/nN7sT"_blank" class="btn-nav" style="display:inline-block; margin-bottom:10px;">Открыть карту 2ГИС 📍</a>
+            <a href="https://go.2gis.com/nN7sT" target="_blank" class="btn-nav" style="display:inline-block; margin-bottom:10px;">Открыть карту 2ГИС 📍</a>
 
             <div class="nav-box">
                 <button class="btn-nav" onclick="navigateToPage(4)">Назад</button>
@@ -463,7 +462,7 @@
             
             <input type="text" id="author" class="wish-input" placeholder="Ваше Имя">
             <textarea id="text" class="wish-text" placeholder="Ваши изысканные пожелания..."></textarea>
-            <button onclick="saveWish()" class="btn-nav" style="width:100%; background:#9E8454; color:#fff;">Оставить пожелание</button>
+            <button id="send-wish-btn" onclick="saveWish()" class="btn-nav" style="width:100%; background:#9E8454; color:#fff;">Оставить пожелание</button>
             
             <div class="wishes-output" id="output-box"></div>
 
@@ -477,6 +476,7 @@
         let isMusicPlaying = false;
         const audioPlayer = document.getElementById('wedding-audio');
         const mp3Url = "music.mp3";
+        const FORMSPREE_URL = "https://formspree.io/f/mwvdyglk";
 
         function loadGuestName() {
             const urlParams = new URLSearchParams(window.location.search);
@@ -487,7 +487,6 @@
         }
         window.addEventListener('DOMContentLoaded', loadGuestName);
 
-        // БЕЗОПАСНОЕ ОТКРЫТИЕ КОНВЕРТА БЕЗ ЗАВИСАНИЙ JavaScript
         function openEnvelope() {
             let screen = document.getElementById('envelope-screen');
             if (!screen) return;
@@ -495,7 +494,6 @@
             let centerX = window.innerWidth / 2;
             let centerY = window.innerHeight / 2;
 
-            // Взрыв сердечек
             for (let i = 0; i < 30; i++) {
                 let p = document.createElement('div');
                 p.className = 'heart-particle';
@@ -518,10 +516,8 @@
                 setTimeout(() => p.remove(), 2000);
             }
 
-            // Полностью прячем конверт
             screen.style.display = 'none';
 
-            // Безопасно запускаем музыку (браузеры не заблокируют открытие страниц из-за аудиоошибки)
             audioPlayer.src = mp3Url;
             audioPlayer.play().then(() => {
                 isMusicPlaying = true;
@@ -559,29 +555,65 @@
             } else {
                 audioPlayer.play().then(() => {
                     isMusicPlaying = true;
-                    statusText.innerText = "Музыка играет";
+                    statusText.innerText = "Music играет";
                 }).catch(err => {
                     console.error("Ошибка воспроизведения:", err);
                 });
             }
         }
 
+        // ОТПРАВКА ПОЖЕЛАНИЙ ЧЕРЕЗ FORMSPREE
         function saveWish() {
             let name = document.getElementById('author').value.trim();
             let wish = document.getElementById('text').value.trim();
             if(!name || !wish) return alert('Заполните поля имени и текста.');
-            let box = document.getElementById('output-box');
-            let item = document.createElement('div');
-            item.className = 'wish-item';
-            item.innerHTML = `<strong>${name}:</strong> ${wish}`;
-            box.insertBefore(item, box.firstChild);
-            document.getElementById('author').value = '';
-            document.getElementById('text').value = '';
+
+            let btn = document.getElementById('send-wish-btn');
+            btn.disabled = true;
+            btn.innerText = 'Отправка...';
+
+            let formData = new FormData();
+            formData.append('Тип данных', 'Новое пожелание');
+            formData.append('Имя гостя', name);
+            formData.append('Пожелание', wish);
+
+            fetch(FORMSPREE_URL, {
+                method: 'POST',
+                body: formData,
+                headers: { 'Accept': 'application/json' }
+            })
+            .then(response => {
+                if(response.ok) {
+                    let box = document.getElementById('output-box');
+                    let item = document.createElement('div');
+                    item.className = 'wish-item';
+                    item.innerHTML = `<strong>${name}:</strong> ${wish}`;
+                    box.insertBefore(item, box.firstChild);
+                    
+                    document.getElementById('author').value = '';
+                    document.getElementById('text').value = '';
+                    alert('Ваше пожелание успешно отправлено!');
+                } else {
+                    alert('Произошла ошибка при отправке пожелания.');
+                }
+            })
+            .catch(error => {
+                console.error('Ошибка:', error);
+                alert('Не удалось отправить. Проверьте интернет соединение.');
+            })
+            .finally(() => {
+                btn.disabled = false;
+                btn.innerText = 'Оставить пожелание';
+            });
         }
 
+        // ОТПРАВКА ФОТОГРАФИЙ ЧЕРЕЗ FORMSPREE
         function previewImages(event) {
             let files = event.target.files;
             let box = document.getElementById('gallery-box');
+            if (files.length === 0) return;
+
+            // Сразу показываем миниатюры локально для гостя
             for(let i=0; i<files.length; i++) {
                 let reader = new FileReader();
                 reader.onload = function(e) {
@@ -591,6 +623,30 @@
                 }
                 reader.readAsDataURL(files[i]);
             }
+
+            // Отправляем файлы на Formspree
+            let formData = new FormData();
+            formData.append('Тип данных', 'Фотографии со свадьбы');
+            for (let i = 0; i < files.length; i++) {
+                formData.append('photo_' + i, files[i]);
+            }
+
+            fetch(FORMSPREE_URL, {
+                method: 'POST',
+                body: formData,
+                headers: { 'Accept': 'application/json' }
+            })
+            .then(response => {
+                if (response.ok) {
+                    alert('Фотографии успешно отправлены!');
+                } else {
+                    alert('Не удалось загрузить фотографии на сервер Formspree. Убедитесь, что у вас платный тариф (поскольку Formspree принимает файлы только на платных планах).');
+                }
+            })
+            .catch(error => {
+                console.error('Ошибка при отправке файлов:', error);
+                alert('Ошибка сети при загрузке файлов.');
+            });
         }
 
         function startPetalsFalling() {
