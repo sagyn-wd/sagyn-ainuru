@@ -4,13 +4,13 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Приглашение на торжество | Сагын & Айнуру</title>
-    <!-- Подключаем шрифты, поддерживающие кириллицу (Marck Script для рукописных имен) -->
-    <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght=0,400;0,600;0,700;1,400;1,600&family=Montserrat:wght@300;400;500;600&family=Marck+Script&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,600;0,700;1,400;1,600&family=Montserrat:wght@300;400;500;600&family=Great+Vibes&display=swap" rel="stylesheet">
     <style>
         * { box-sizing: border-box; margin: 0; padding: 0; }
 
         body, html {
             height: 100%;
+            /* Новый ультра-роскошный шелковый радиальный фон */
             background: radial-gradient(circle at 50% 40%, #fff8f9 0%, #fbe1e8 60%, #dfdaf5 100%);
             background-attachment: fixed;
             color: #2A2F35;
@@ -25,30 +25,59 @@
             top: -50px;
             pointer-events: none;
             will-change: transform, top, opacity;
+            
+            /* Естественная форма лепестка со складкой */
             background: radial-gradient(circle at 35% 25%, #fff1f3 0%, #ffa6be 50%, #f27d9a 100%);
             border-radius: 50% 50% 45% 45% / 40% 40% 60% 60%;
+            
+            /* Профессиональные мягкие тени для объема */
             box-shadow: 
                 inset -3px -3px 7px rgba(210, 100, 125, 0.45), 
                 inset 3px 3px 6px rgba(255, 255, 255, 0.9),
                 0 12px 25px rgba(160, 110, 120, 0.18);
+                
+            /* Двухуровневая анимация: падение + хаотичное покачивание */
             animation: petalFall linear infinite, petalSway ease-in-out infinite;
         }
 
+        /* 1. Глобальное падение сверху вниз с изменением прозрачности */
         @keyframes petalFall {
-            0% { top: -50px; opacity: 0; }
-            10% { opacity: 0.95; }
-            90% { opacity: 0.90; }
-            100% { top: 105vh; opacity: 0; }
+            0% { 
+                top: -50px;
+                opacity: 0;
+            }
+            10% {
+                opacity: 0.95;
+            }
+            90% {
+                opacity: 0.90;
+            }
+            100% { 
+                top: 105vh; 
+                opacity: 0;
+            }
         }
 
+        /* 2. Сложная трехмерная траектория, завихрения воздуха и перевороты граней лепестка */
         @keyframes petalSway {
-            0% { transform: translateX(0) rotateX(0deg) rotateY(0deg) rotateZ(0deg); }
-            25% { transform: translateX(45px) rotateX(65deg) rotateY(45deg) rotateZ(35deg); }
-            50% { transform: translateX(-35px) rotateX(135deg) rotateY(160deg) rotateZ(85deg); }
-            75% { transform: translateX(30px) rotateX(75deg) rotateY(290deg) rotateZ(140deg); }
-            100% { transform: translateX(-10px) rotateX(180deg) rotateY(360deg) rotateZ(210deg); }
+            0% {
+                transform: translateX(0) rotateX(0deg) rotateY(0deg) rotateZ(0deg);
+            }
+            25% {
+                transform: translateX(45px) rotateX(65deg) rotateY(45deg) rotateZ(35deg);
+            }
+            50% {
+                transform: translateX(-35px) rotateX(135deg) rotateY(160deg) rotateZ(85deg);
+            }
+            75% {
+                transform: translateX(30px) rotateX(75deg) rotateY(290deg) rotateZ(140deg);
+            }
+            100% {
+                transform: translateX(-10px) rotateX(180deg) rotateY(360deg) rotateZ(210deg);
+            }
         }
 
+        /* КИНЕТИЧЕСКИЙ ВЗРЫВ ПРИ ОТКРЫТИИ */
         .petal-particle {
             position: fixed;
             pointer-events: none;
@@ -57,107 +86,269 @@
             background: radial-gradient(circle at 35% 30%, #ffffff 10%, #ffdae2 60%, #ffb3c6 100%);
             border-radius: 50% 55% 45% 50% / 40% 40% 60% 60%;
             opacity: 1;
-            box-shadow: inset -2px -2px 5px rgba(220, 130, 150, 0.35), inset 1px 1px 3px rgba(255, 255, 255, 0.8), 0 6px 15px rgba(160, 120, 130, 0.15);
+            box-shadow: 
+                inset -2px -2px 5px rgba(220, 130, 150, 0.35), 
+                inset 1px 1px 3px rgba(255, 255, 255, 0.8),
+                0 6px 15px rgba(160, 120, 130, 0.15);
             transition: transform 2.8s cubic-bezier(0.075, 0.82, 0.165, 1), opacity 2.8s ease-out;
         }
 
+        /* ЭКРАН С КОНВЕРТОМ */
         #envelope-screen {
             position: fixed;
             top: 0; left: 0; width: 100%; height: 100%;
             background: radial-gradient(circle at 50% 40%, #fff8f9 0%, #fbe1e8 60%, #dfdaf5 100%);
-            display: flex; flex-direction: column; justify-content: center; align-items: center;
-            z-index: 99999; cursor: pointer;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            z-index: 99999;
+            cursor: pointer;
         }
 
         .envelope {
-            display: flex !important; flex-direction: column; justify-content: center; align-items: center;
-            position: relative; width: 440px !important; height: 280px !important; max-width: 92%;
-            background: #FFFFFF !important; box-shadow: 0 40px 90px rgba(170, 135, 145, 0.25) !important; 
-            border-radius: 16px; border: 1px solid rgba(220, 210, 195, 0.6); z-index: 10;
+            display: flex !important;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            position: relative;
+            width: 440px !important; 
+            height: 280px !important;
+            max-width: 92%;
+            background: #FFFFFF !important;
+            box-shadow: 0 40px 90px rgba(170, 135, 145, 0.25) !important; 
+            border-radius: 16px;
+            border: 1px solid rgba(220, 210, 195, 0.6);
+            z-index: 10;
         }
 
         .envelope::before {
-            content: ''; position: absolute; top: 14px; left: 14px; right: 14px; bottom: 14px;
-            border: 1px solid rgba(212, 175, 55, 0.25); border-radius: 8px;
+            content: '';
+            position: absolute;
+            top: 14px; left: 14px; right: 14px; bottom: 14px;
+            border: 1px solid rgba(212, 175, 55, 0.25);
+            border-radius: 8px;
         }
 
         .heart-seal-wrapper {
-            width: 110px; height: 100px; position: relative; display: flex; justify-content: center; align-items: center;
+            width: 110px;
+            height: 100px;
+            position: relative;
+            display: flex;
+            justify-content: center;
+            align-items: center;
             filter: drop-shadow(0 10px 18px rgba(230, 90, 115, 0.35));
         }
 
-        .heart-svg-seal { position: absolute; width: 100%; height: 100%; top: 0; left: 0; }
+        .heart-svg-seal {
+            position: absolute;
+            width: 100%;
+            height: 100%;
+            top: 0; left: 0;
+        }
 
         .heart-seal-text {
-            position: relative; z-index: 2; color: #F9E7B9; font-family: 'Marck Script', cursive;
-            font-weight: bold; font-size: 2.1rem; text-shadow: 1px 2px 4px rgba(0,0,0,0.18); margin-top: -6px;
+            position: relative;
+            z-index: 2;
+            color: #F9E7B9; 
+            font-family: 'Great Vibes', cursive;
+            font-weight: bold;
+            font-size: 2.1rem;
+            text-shadow: 1px 2px 4px rgba(0,0,0,0.18);
+            margin-top: -6px;
         }
 
         .envelope-text {
-            font-family: 'Montserrat', sans-serif; font-size: 0.75rem; letter-spacing: 3px;
-            text-transform: uppercase; color: #8A8475; font-weight: 500; margin-top: 20px;
+            font-family: 'Montserrat', sans-serif;
+            font-size: 0.75rem;
+            letter-spacing: 3px;
+            text-transform: uppercase;
+            color: #8A8475;
+            font-weight: 500;
+            margin-top: 20px;
         }
 
+        /* МУЗЫКАЛЬНАЯ ПАНЕЛЬ */
         #cozy-music-bar {
-            position: fixed; top: 25px; left: 50%; transform: translateX(-50%);
-            background: rgba(255, 255, 255, 0.93); border: 1px solid rgba(158, 132, 84, 0.25);
-            padding: 10px 24px; border-radius: 30px; display: flex; align-items: center; gap: 12px;
-            box-shadow: 0 12px 35px rgba(160, 130, 140, 0.12); z-index: 1000; cursor: pointer; backdrop-filter: blur(4px);
+            position: fixed;
+            top: 25px; 
+            left: 50%;
+            transform: translateX(-50%);
+            background: rgba(255, 255, 255, 0.93);
+            border: 1px solid rgba(158, 132, 84, 0.25);
+            padding: 10px 24px;
+            border-radius: 30px;
+            display: flex; 
+            align-items: center;
+            gap: 12px;
+            box-shadow: 0 12px 35px rgba(160, 130, 140, 0.12);
+            z-index: 1000; 
+            cursor: pointer;
+            backdrop-filter: blur(4px);
         }
 
-        .music-bar-text { font-family: 'Montserrat', sans-serif; font-size: 0.75rem; text-transform: uppercase; letter-spacing: 1.5px; color: #9E8454; font-weight: 600; }
-        .music-btn-circle { width: 28px; height: 28px; background: #9E8454; color: #FFFFFF; border-radius: 50%; display: flex; justify-content: center; align-items: center; font-size: 0.8rem; }
+        .music-bar-text {
+            font-family: 'Montserrat', sans-serif;
+            font-size: 0.75rem;
+            text-transform: uppercase;
+            letter-spacing: 1.5px;
+            color: #9E8454;
+            font-weight: 600;
+        }
+        .music-btn-circle {
+            width: 28px;
+            height: 28px;
+            background: #9E8454;
+            color: #FFFFFF;
+            border-radius: 50%;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            font-size: 0.8rem;
+        }
 
+        /* СИСТЕМА СТРАНИЦ */
         .page {
-            display: none; position: absolute; top: 0; left: 0; width: 100%; min-height: 100%;
-            padding: 105px 20px 40px 20px; text-align: center; justify-content: center; align-items: center; flex-direction: column; opacity: 0; z-index: 5;
+            display: none;
+            position: absolute;
+            top: 0; left: 0; width: 100%; min-height: 100%;
+            padding: 105px 20px 40px 20px; 
+            text-align: center;
+            justify-content: center;
+            align-items: center;
+            flex-direction: column;
+            opacity: 0;
+            z-index: 5;
         }
         .page.active { display: flex !important; animation: fadeInPage 0.5s ease-out forwards; }
         @keyframes fadeInPage { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: translateY(0); } }
 
         .content-card {
-            width: 100%; max-width: 520px; margin: auto; padding: 45px 30px;
-            background: rgba(255, 255, 255, 0.98); border: 1px solid rgba(158, 132, 84, 0.2);
-            box-shadow: 0 25px 70px rgba(170, 130, 145, 0.12); border-radius: 4px; position: relative;
+            width: 100%;
+            max-width: 520px;
+            margin: auto;
+            padding: 45px 30px;
+            background: rgba(255, 255, 255, 0.98);
+            border: 1px solid rgba(158, 132, 84, 0.2);
+            box-shadow: 0 25px 70px rgba(170, 130, 145, 0.12);
+            border-radius: 4px;
+            position: relative;
         }
-        .content-card::after { content: ''; position: absolute; top: 10px; left: 10px; right: 10px; bottom: 10px; border: 1px solid rgba(158, 132, 84, 0.12); pointer-events: none; }
+        .content-card::after {
+            content: '';
+            position: absolute;
+            top: 10px; left: 10px; right: 10px; bottom: 10px;
+            border: 1px solid rgba(158, 132, 84, 0.12);
+            pointer-events: none;
+        }
 
         h2 { font-size: 1.65rem; color: #9E8454; letter-spacing: 3px; text-transform: uppercase; margin-bottom: 22px; font-weight: 400; }
-        .invitation-text { font-size: 1.15rem; line-height: 1.75; font-style: italic; color: #3A4047; margin-bottom: 12px; }
-        
-        /* КРАСИВЫЙ КИРИЛЛИЧЕСКИЙ КУРСИВ ДЛЯ ИМЕН */
-        .couple-names { font-family: 'Marck Script', cursive; font-size: 3.2rem; color: #9E8454; margin: 15px 0; }
 
-        .hosts-container { display: flex; flex-direction: column; gap: 15px; margin-top: 20px; border-top: 1px dashed rgba(158, 132, 84, 0.2); padding-top: 15px; }
-        .hosts-block { display: flex; flex-direction: column; align-items: center; }
+        .invitation-text {
+            font-size: 1.15rem;
+            line-height: 1.75;
+            font-style: italic;
+            color: #3A4047;
+            margin-bottom: 12px;
+        }
+
+        .couple-names { font-family: 'Great Vibes', cursive; font-size: 3.5rem; color: #9E8454; margin: 15px 0; }
+
+        /* РОДИТЕЛИ */
+        .hosts-container {
+            display: flex;
+            flex-direction: column;
+            gap: 15px;
+            margin-top: 20px;
+            border-top: 1px dashed rgba(158, 132, 84, 0.2);
+            padding-top: 15px;
+        }
+        .hosts-block {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
         .hosts-title { font-family: 'Cormorant Garamond', serif; font-size: 1.05rem; text-transform: uppercase; letter-spacing: 2px; color: #8A8475; }
         .hosts-names { font-size: 1.4rem; letter-spacing: 0.5px; font-weight: 600; color: #2A2F35; margin-top: 2px; }
         .hosts-status { font-size: 0.9rem; font-style: italic; color: #8A8475; }
 
+        /* КНОПКИ НАВИГАЦИИ */
         .nav-box { display: flex; justify-content: center; gap: 12px; margin-top: 35px; width: 100%; position: relative; z-index: 100; }
         .btn-nav {
-            padding: 12px 30px; background: #FFFFFF; border: 1px solid #9E8454; color: #9E8454;
-            font-family: 'Montserrat', sans-serif; font-size: 0.75rem; text-transform: uppercase; letter-spacing: 2px;
-            cursor: pointer; transition: all 0.3s cubic-bezier(0.25, 0.46, 0.45, 0.94); text-decoration: none; font-weight: 500;
+            padding: 12px 30px;
+            background: #FFFFFF;
+            border: 1px solid #9E8454;
+            color: #9E8454;
+            font-family: 'Montserrat', sans-serif;
+            font-size: 0.75rem;
+            text-transform: uppercase;
+            letter-spacing: 2px;
+            cursor: pointer;
+            transition: all 0.3s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+            text-decoration: none;
+            font-weight: 500;
         }
         .btn-nav:hover { background: #9E8454; color: #FFFFFF; transform: translateY(-1px); }
 
+        /* ТАЙМЕР */
         .timer-grid { display: flex; justify-content: center; gap: 10px; margin: 25px 0; }
         .timer-item { background: #FFFFFF; border: 1px solid #EFEAE0; padding: 12px; min-width: 72px; border-radius: 4px; box-shadow: 0 4px 10px rgba(0,0,0,0.02); }
         .timer-num { font-size: 1.6rem; color: #2A2F35; font-weight: 600; }
         .timer-label { font-family: 'Montserrat', sans-serif; font-size: 0.55rem; color: #8A94A0; text-transform: uppercase; letter-spacing: 1px; }
 
-        .timeline-container { text-align: left; margin: 15px auto 5px auto; max-width: 420px; }
+        /* ТАЙМЛАЙН ПРОГРАММЫ */
+        .timeline-container {
+            text-align: left;
+            margin: 15px auto 5px auto;
+            max-width: 420px;
+        }
         .timeline-item { display: flex; margin-bottom: 14px; }
         .timeline-time { font-family: 'Montserrat', sans-serif; font-size: 0.85rem; font-weight: 600; color: #9E8454; min-width: 55px; padding-top: 2px; }
         .timeline-text { font-size: 1.1rem; color: #333; line-height: 1.3; }
 
-        .dc-badge { font-family: 'Montserrat', sans-serif; font-size: 0.85rem; letter-spacing: 4px; text-transform: uppercase; color: #9E8454; font-weight: 600; margin: 15px 0; display: inline-block; border-bottom: 1px solid #9E8454; padding-bottom: 4px; }
+        /* ДРЕСС-КОД */
+        .dc-badge {
+            font-family: 'Montserrat', sans-serif;
+            font-size: 0.85rem;
+            letter-spacing: 4px;
+            text-transform: uppercase;
+            color: #9E8454;
+            font-weight: 600;
+            margin: 15px 0;
+            display: inline-block;
+            border-bottom: 1px solid #9E8454;
+            padding-bottom: 4px;
+        }
 
+        /* КНИГА ПОЖЕЛАНИЙ */
         .wish-input, .wish-text { width: 100%; padding: 12px; margin-bottom: 12px; border: 1px solid #E2DCD0; background: #FFFFFF; font-family: 'Montserrat', sans-serif; font-size: 0.85rem; outline: none; border-radius: 2px; }
         .wish-text { height: 80px; resize: none; }
         .wishes-output { max-height: 140px; overflow-y: auto; text-align: left; font-size: 0.9rem; margin-top: 15px; }
         .wish-item { padding: 10px; border-left: 2px solid #9E8454; background: #FAFAFA; margin-bottom: 6px; font-style: italic; }
+
+        /* КНОПКА ДИСКА */
+        .btn-upload-drive {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            gap: 10px;
+            width: 100%;
+            padding: 16px;
+            background: #9E8454;
+            color: #FFFFFF;
+            font-family: 'Montserrat', sans-serif;
+            font-size: 0.85rem;
+            text-transform: uppercase;
+            letter-spacing: 2px;
+            font-weight: 600;
+            border: none;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            text-decoration: none;
+            box-shadow: 0 6px 20px rgba(158, 132, 84, 0.2);
+            margin-top: 15px;
+        }
+        .btn-upload-drive:hover { background: #846D43; transform: translateY(-2px); }
     </style>
 </head>
 <body>
@@ -193,7 +384,7 @@
             <h2 id="guest-title-heading">Дорогие Гости</h2>
             <p class="invitation-text" style="font-weight: 700; color:#9E8454; margin-bottom: 15px; font-size: 1.3rem; font-style: normal;">Рады пригласить вас на наше семейное торжество!</p>
             <p class="invitation-text" style="font-size: 1.1rem;">Разделите с нами один из самых счастливых и ответственных моментов — прекрасный праздник в честь бракосочетания наших детей Сагына и Айнуру.</p>
-            <p class="invitation-text" style="font-size: 1.1rem;">Ваши улыбки, добрые пожелания и поддержка станят главным украшением этого важного дня!</p>
+            <p class="invitation-text" style="font-size: 1.1rem;">Ваши улыбки, добрые пожелания и поддержка станут главным украшением этого важного дня!</p>
 
             <div class="hosts-container">
                 <div class="hosts-block">
@@ -219,7 +410,6 @@
             <p class="invitation-text" style="line-height: 1.8; font-size: 1.2rem;">В жизни каждого человека бывают моменты, когда весь мир замирает и открывается новая, чистая глава. Мы нашли это невероятное счастье и вдохновение друг в другe.</p>
             <p class="invitation-text" style="line-height: 1.8; font-size: 1.2rem;">И перед тем как сделать этот самый важный шаг в наше общее будущее, мы хотим искренне пригласить вас стать главными свидетелями начала нашей большой истории.</p>
 
-            <!-- ЗДЕСЬ ТЕПЕРЬ КРАСИВЫЙ ШРИФТ -->
             <div class="couple-names">Сагын & Айнуру</div>
 
             <div class="nav-box">
@@ -294,24 +484,11 @@
             </div>
 
             <h2 style="margin-top: 30px;">Поделитесь кадрами</h2>
-            <p style="font-style: italic; font-size: 1.05rem; color: #555; margin-bottom: 15px;">
-                Вы можете загрузить лучшие фотографии и видео прямо отсюда. Снимки попадут напрямую молодожёнам.
-            </p>
+            <p style="font-style: italic; font-size: 1.05rem; color: #555; margin-bottom: 15px;">Вы можете загрузить лучшие фотографии и видео прямо в наш свадебный альбом на Google Диске!</p>
             
-            <div style="background: rgba(158, 132, 84, 0.03); border: 1px solid rgba(158, 132, 84, 0.2); padding: 20px; border-radius: 4px; text-align: left;">
-                <label style="font-family: 'Montserrat', sans-serif; font-size: 0.8rem; font-weight:600; color:#9E8454; text-transform:uppercase; display:block; margin-bottom:8px;">
-                    Выберите фото или видео
-                </label>
-                <input type="file" id="wedding-photos-input" accept="image/*,video/*" multiple class="wish-input" style="padding: 8px;">
-                
-                <button id="upload-photos-btn" onclick="uploadPhotosToServer()" class="btn-nav" style="width:100%; background:#9E8454; color:#fff; margin-top: 10px; font-weight: 600;">
-                    📸 Отправить файлы
-                </button>
-
-                <div id="upload-status" style="font-family: 'Montserrat', sans-serif; font-size: 0.85rem; color: #555; margin-top: 10px; text-align: center; display: none;">
-                    Отправка файлов... <span id="upload-progress">0</span>%
-                </div>
-            </div>
+            <a id="drive-upload-link" href="https://drive.google.com/drive/folders/1yM5AbdGGDJ1eJWH_p2tU-T1fNaInMkLe?usp=sharing" target="_blank" class="btn-upload-drive">
+                <span>📸</span> Загрузить фото в альбом
+            </a>
 
             <div class="nav-box" style="margin-top: 40px;">
                 <button class="btn-nav" onclick="navigateToPage(5)">Назад</button>
@@ -326,7 +503,7 @@
             <p style="font-style: italic; font-size:1.1rem; color:#555; margin-bottom:15px;">Напишите свои теплые слова для Сагына и Айнуру:</p>
             
             <input type="text" id="author" class="wish-input" placeholder="Ваше Имя">
-            <textarea id="text" class="wish-text" placeholder="Ваши изысканные пожелания..."></textarea>
+            <textarea id="text" class="wish-text" placeholder="Вашие изысканные пожелания..."></textarea>
             <button id="send-wish-btn" onclick="saveWish()" class="btn-nav" style="width:100%; background:#9E8454; color:#fff;">Оставить пожелание</button>
             
             <div class="wishes-output" id="output-box"></div>
@@ -341,44 +518,17 @@
         let isMusicPlaying = false;
         const audioPlayer = document.getElementById('wedding-audio');
         const mp3Url = "music.mp3";
-        
-        // ВАШЕ ВЕБ-ПРИЛОЖЕНИЕ GOOGLE APPS SCRIPT
-        const GOOGLE_SCRIPT_URL = "https://script.google.com/macros/s/AKfycbxXOqSmt-fLYrEBRNvBcG3ll1B_69MiyGD_d8-RM1rNX2aAoqjhgddSBm2wuHmBosCKbQ/exec"; 
+        const GOOGLE_SCRIPT_URL = "https://script.google.com/macros/s/AKfycbyrIsYDqqnuZR7Y_9s68uE9aptlGDOK7g-xxQK_JVPoYpW3Ym1bZe5dupBBdKPyjZ8aRA/exec"; 
 
-        // Инициализация имени гостя из адреса страницы
         function loadGuestName() {
             const urlParams = new URLSearchParams(window.location.search);
             const guestName = urlParams.get('name') || urlParams.get('to');
-            if (guestName) { document.getElementById('guest-title-heading').innerText = guestName; }
+            if (guestName) {
+                document.getElementById('guest-title-heading').innerText = guestName;
+            }
         }
         window.addEventListener('DOMContentLoaded', loadGuestName);
 
-        // Счётчик времени
-        const targetDate = new Date("July 31, 2026 17:00:00").getTime();
-        function updateTimer() {
-            const now = new Date().getTime();
-            const difference = targetDate - now;
-            if (difference < 0) {
-                document.getElementById("days").innerText = "00";
-                document.getElementById("hours").innerText = "00";
-                document.getElementById("minutes").innerText = "00";
-                document.getElementById("seconds").innerText = "00";
-                return;
-            }
-            const days = Math.floor(difference / (1000 * 60 * 60 * 24));
-            const hours = Math.floor((difference % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
-            const minutes = Math.floor((difference % (1000 * 60 * 60)) / (1000 * 60));
-            const seconds = Math.floor((difference % (1000 * 60)) / 1000);
-
-            document.getElementById("days").innerText = days < 10 ? "0" + days : days;
-            document.getElementById("hours").innerText = hours < 10 ? "0" + hours : hours;
-            document.getElementById("minutes").innerText = minutes < 10 ? "0" + minutes : minutes;
-            document.getElementById("seconds").innerText = seconds < 10 ? "0" + seconds : seconds;
-        }
-        setInterval(updateTimer, 1000);
-        window.addEventListener('DOMContentLoaded', updateTimer);
-
-        // Открытие конверта
         function openEnvelope() {
             let screen = document.getElementById('envelope-screen');
             if (!screen) return;
@@ -386,13 +536,18 @@
             let centerX = window.innerWidth / 2;
             let centerY = window.innerHeight / 2;
 
+            // Салют из 3D-лепестков
             for (let i = 0; i < 45; i++) {
                 let p = document.createElement('div');
                 p.className = 'petal-particle';
+                
                 let sizeW = Math.random() * 18 + 14;
                 let sizeH = sizeW * (Math.random() * 0.15 + 0.85);
-                p.style.width = sizeW + 'px'; p.style.height = sizeH + 'px';
-                p.style.left = centerX - (sizeW/2) + 'px'; p.style.top = centerY - (sizeH/2) + 'px';
+                p.style.width = sizeW + 'px';
+                p.style.height = sizeH + 'px';
+                
+                p.style.left = centerX - (sizeW/2) + 'px';
+                p.style.top = centerY - (sizeH/2) + 'px';
                 document.body.appendChild(p);
 
                 let angle = Math.random() * Math.PI * 2;
@@ -408,6 +563,7 @@
             }
 
             screen.style.display = 'none';
+
             audioPlayer.src = mp3Url;
             audioPlayer.play().then(() => {
                 isMusicPlaying = true;
@@ -436,38 +592,30 @@
             }
             let statusText = document.getElementById('music-status-text');
             if (isMusicPlaying) {
-                audioPlayer.pause(); isMusicPlaying = false;
+                audioPlayer.pause();
+                isMusicPlaying = false;
                 statusText.innerText = "Музыка на паузе";
             } else {
                 audioPlayer.play().then(() => {
-                    isMusicPlaying = true; statusText.innerText = "Музыка играет";
+                    isMusicPlaying = true;
+                    statusText.innerText = "Музыка играет";
                 }).catch(err => console.error(err));
             }
         }
 
-        // ИСПРАВЛЕННОЕ СОХРАНЕНИЕ ПОЖЕЛАНИЙ (БЕЗ CORS-БЛОКИРОВКИ)
         function saveWish() {
             let name = document.getElementById('author').value.trim();
             let wish = document.getElementById('text').value.trim();
             if(!name || !wish) return alert('Заполните поля имени и текста.');
 
             let btn = document.getElementById('send-wish-btn');
-            btn.disabled = true; btn.innerText = 'Отправка...';
+            btn.disabled = true;
+            btn.innerText = 'Отправка...';
 
-            let payload = {
-                action: 'saveWish',
-                author: name,
-                text: wish
-            };
+            let urlWithParams = GOOGLE_SCRIPT_URL + "?author=" + encodeURIComponent(name) + "&text=" + encodeURIComponent(wish);
 
-            fetch(GOOGLE_SCRIPT_URL, {
-                method: 'POST',
-                mode: 'no-cors', // Позволяет отправлять данные в Google обходя политику CORS
-                headers: { 'Content-Type': 'application/json' },
-                body: JSON.stringify(payload)
-            })
-            .then(() => {
-                // Из-за no-cors мы не читаем тело ответа, а сразу выводим успех
+            fetch(urlWithParams, { method: 'POST' })
+            .then(response => {
                 let box = document.getElementById('output-box');
                 let item = document.createElement('div');
                 item.className = 'wish-item';
@@ -476,138 +624,78 @@
                 
                 document.getElementById('author').value = '';
                 document.getElementById('text').value = '';
-                alert('Ваше пожелание успешно отправлено молодожёнам!');
+                alert('Ваше пожелание успешно сохранено!');
             })
-            .catch(error => {
-                console.error(error);
-                alert('Произошла ошибка отправки.');
-            })
+            .catch(error => alert('Ошибка отправки.'))
             .finally(() => {
-                btn.disabled = false; btn.innerText = 'Оставить пожелание';
+                btn.disabled = false;
+                btn.innerText = 'Оставить пожелание';
             });
         }
 
-        // ИСПРАВЛЕННАЯ ПОТОКОВАЯ ЗАГРУЗКА ФАЙЛОВ
-        async function uploadPhotosToServer() {
-            const fileInput = document.getElementById('wedding-photos-input');
-            const files = fileInput.files;
-            if (files.length === 0) return alert('Пожалуйста, выберите хотя бы один файл.');
-
-            const btn = document.getElementById('upload-photos-btn');
-            const statusDiv = document.getElementById('upload-status');
-
-            btn.disabled = true;
-            statusDiv.style.display = 'block';
-            
-            const CHUNK_SIZE = 3 * 1024 * 1024; 
-
-            for (let i = 0; i < files.length; i++) {
-                const file = files[i];
-                const totalChunks = Math.ceil(file.size / CHUNK_SIZE);
-                const fileUniqueId = 'file_' + Date.now() + '_' + i; 
-
-                for (let chunkIndex = 0; chunkIndex < totalChunks; chunkIndex++) {
-                    const start = chunkIndex * CHUNK_SIZE;
-                    const end = Math.min(start + CHUNK_SIZE, file.size);
-                    const chunk = file.slice(start, end);
-
-                    const base64Chunk = await new Promise((resolve) => {
-                        const reader = new FileReader();
-                        reader.onload = () => resolve(reader.result.split(',')[1]);
-                        reader.readAsDataURL(chunk);
-                    });
-
-                    const payload = {
-                        action: 'uploadChunk',
-                        uniqueId: fileUniqueId,
-                        filename: file.name,
-                        mimeType: file.type,
-                        data: base64Chunk,
-                        chunkIndex: chunkIndex,
-                        isFirstChunk: chunkIndex === 0
-                    };
-
-                    try {
-                        await fetch(GOOGLE_SCRIPT_URL, {
-                            method: 'POST',
-                            mode: 'no-cors', // Фикс CORS-ошибки загрузки
-                            headers: { 'Content-Type': 'application/json' },
-                            body: JSON.stringify(payload)
-                        });
-
-                        let percent = Math.round(((chunkIndex + 1) / totalChunks) * 100);
-                        statusDiv.innerHTML = `Загрузка: ${file.name}<br>Готово: ${percent}%`;
-
-                    } catch (err) {
-                        console.error(err);
-                        alert(`Ошибка на этапе отправки частей файла "${file.name}".`);
-                        btn.disabled = false; statusDiv.style.display = 'none';
-                        return; 
-                    }
-                }
-
-                statusDiv.innerHTML = `Файл ${file.name} отправлен.<br>Сохранение на сервере...`;
-                const mergePayload = {
-                    action: 'mergeChunks',
-                    uniqueId: fileUniqueId,
-                    filename: file.name,
-                    mimeType: file.type
-                };
-
-                try {
-                    await fetch(GOOGLE_SCRIPT_URL, {
-                        method: 'POST',
-                        mode: 'no-cors', // Фикс CORS-ошибки слияния
-                        headers: { 'Content-Type': 'application/json' },
-                        body: JSON.stringify(mergePayload)
-                    });
-                } catch (err) {
-                    console.error(err);
-                }
-            }
-
-            alert('Все файлы успешно отправлены молодожёнам!');
-            btn.disabled = false;
-            statusDiv.style.display = 'none';
-            fileInput.value = ''; 
-        }
-
-        // Эффект падающих лепестков
+        // КИНЕМАТОГРАФИЧНЫЙ ЭФФЕКТ ГЛУБОКОГО СНЕГОПАДА ИЗ ЛЕПЕСТКОВ РОЗ
         function startPetalsFalling() {
             setInterval(() => {
                 let petal = document.createElement('div');
                 petal.className = 'rose-petal';
+                
+                // Случайное положение по горизонтали
                 petal.style.left = Math.random() * window.innerWidth + 'px';
                 
-                let fallDuration = Math.random() * 5 + 8; 
-                let swayDuration = Math.random() * 3 + 4; 
+                // Скорость падения и скорость покачивания (слегка рассинхронизированы для хаоса)
+                let fallDuration = Math.random() * 5 + 8; // Медленное парение (8-13 сек)
+                let swayDuration = Math.random() * 3 + 4; // Скорость завихрения ветра
+                
                 petal.style.animationName = 'petalFall, petalSway';
                 petal.style.animationDuration = `${fallDuration}s, ${swayDuration}s`;
                 
+                // Естественная вариация размеров
                 let baseSize = Math.random() * 16 + 14; 
                 petal.style.width = baseSize + 'px';
                 petal.style.height = baseSize * (Math.random() * 0.2 + 0.85) + 'px'; 
                 
+                // СЛУЧАЙНАЯ ГЛУБИНА РЕЗКОСТИ (Depth of Field) И СЛОИ
                 let depthRand = Math.random();
                 if (depthRand < 0.25) {
-                    petal.style.zIndex = "2"; 
-                    petal.style.filter = "blur(1.5px)"; 
-                    petal.style.transform = `scale(0.6)`; 
+                    // Лепестки на дальнем плане (маленькие, размытые, летят за карточками)
+                    petal.style.zIndex = "2";
+                    petal.style.filter = "blur(1.5px)";
+                    petal.style.transform = `scale(0.6)`;
                     petal.style.opacity = "0.6";
                 } else if (depthRand > 0.85) {
-                    petal.style.zIndex = "1000"; 
-                    petal.style.filter = "blur(2.5px)"; 
-                    petal.style.transform = `scale(1.5)`; 
+                    // Лепестки на переднем плане (огромные, слегка размытые, пролетают перед глазами)
+                    petal.style.zIndex = "1000";
+                    petal.style.filter = "blur(2.5px)";
+                    petal.style.transform = `scale(1.5)`;
                     petal.style.opacity = "0.75";
                 } else {
-                    petal.style.zIndex = "10";
+                    // Средний стандартный слой (четкие, пролетают над фоном, но под интерфейсом)
+                    petal.style.zIndex = "20";
                     petal.style.filter = "none";
+                    petal.style.transform = `scale(1)`;
                 }
                 
+                // Случайная задержка начала анимации у каждого лепестка
+                petal.style.animationDelay = `-${Math.random() * 4}s, -${Math.random() * 2}s`;
+                
                 document.body.appendChild(petal);
+                
+                // Удаляем лепесток после завершения полного цикла падения
                 setTimeout(() => petal.remove(), fallDuration * 1000);
-            }, 350);
+            }, 240); // Идеальный баланс плотности, чтобы не нагружать экран телефона
         }
+
+        const weddingDate = new Date('July 31, 2026 17:00:00').getTime();
+        setInterval(() => {
+            const now = new Date().getTime();
+            const diff = weddingDate - now;
+            if (diff > 0) {
+                document.getElementById('days').innerText = Math.floor(diff / (1000 * 60 * 60 * 24));
+                document.getElementById('hours').innerText = Math.floor((diff % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
+                document.getElementById('minutes').innerText = Math.floor((diff % (1000 * 60 * 60)) / (1000 * 60));
+                document.getElementById('seconds').innerText = Math.floor((diff % (1000 * 60)) / 1000);
+            }
+        }, 1000);
     </script>
 </body>
 </html>
