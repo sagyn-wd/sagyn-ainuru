@@ -4,7 +4,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Приглашение на торжество | Сагын & Айнуру</title>
-    <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,600;0,700;1,400;1,600&family=Montserrat:wght@300;400;500;600&family=Great+Vibes&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght=0,400;0,600;0,700;1,400;1,600&family=Montserrat:wght@300;400;500;600&family=Great+Vibes&display=swap" rel="stylesheet">
     <style>
         * { box-sizing: border-box; margin: 0; padding: 0; }
 
@@ -346,8 +346,8 @@
         const audioPlayer = document.getElementById('wedding-audio');
         const mp3Url = "music.mp3";
         
-        // ВАША ССЫЛКА НА ВЕБ-ПРИЛОЖЕНИЕ (УЖЕ ОБНОВЛЕНА)
-        const GOOGLE_SCRIPT_URL = "https://script.google.com/macros/s/AKfycbxdr3mtmmYLT0S-aoecD4iV2QQmCvYo3BhrvDEsO1rLpw4CH2Oy7DOqCtIBwOCCeMBDMg/exec"; 
+        // ВАША НОВАЯ ССЫЛКА НА ВЕБ-ПРИЛОЖЕНИЕ (УЖЕ ОБНОВЛЕНА)
+        const GOOGLE_SCRIPT_URL = "https://script.google.com/macros/s/AKfycbxXOqSmt-fLYrEBRNvBcG3ll1B_69MiyGD_d8-RM1rNX2aAoqjhgddSBm2wuHmBosCKbQ/exec"; 
 
         function loadGuestName() {
             const urlParams = new URLSearchParams(window.location.search);
@@ -458,7 +458,7 @@
             });
         }
 
-        function uploadPhotosToServer() {
+        async function uploadPhotosToServer() {
             const fileInput = document.getElementById('wedding-photos-input');
             const files = fileInput.files;
             if (files.length === 0) return alert('Пожалуйста, выберите хотя бы один файл.');
@@ -467,47 +467,100 @@
             const statusDiv = document.getElementById('upload-status');
             const progressSpan = document.getElementById('upload-progress');
 
-            btn.disabled = true; statusDiv.style.display = 'block';
-            let uploadedCount = 0;
+            btn.disabled = true;
+            statusDiv.style.display = 'block';
+            
+            // Размер одного кусочка (чанка). 3 МБ - оптимально.
+            const CHUNK_SIZE = 3 * 1024 * 1024; 
 
-            function uploadFile(index) {
-                if (index >= files.length) {
-                    alert('Все файлы успешно и конфиденциально отправлены! Спасибо!');
-                    btn.disabled = false; statusDiv.style.display = 'none';
-                    fileInput.value = '';
-                    return;
-                }
+            // Основной цикл по всем выбранным файлам
+            for (let i = 0; i < files.length; i++) {
+                const file = files[i];
+                const totalChunks = Math.ceil(file.size / CHUNK_SIZE);
+                
+                // Уникальный ID для этого файла
+                const fileUniqueId = 'file_' + Date.now() + '_' + i; 
 
-                const file = files[index];
-                const reader = new FileReader();
+                console.log(`Начинаем загрузку файла: ${file.name}, Размер: ${file.size}, Кусочков: ${totalChunks}`);
 
-                reader.onload = function(e) {
-                    const base64Data = e.target.result.split(',')[1];
+                // Цикл загрузки кусочков одного файла
+                for (let chunkIndex = 0; chunkIndex < totalChunks; chunkIndex++) {
+                    const start = chunkIndex * CHUNK_SIZE;
+                    const end = Math.min(start + CHUNK_SIZE, file.size);
+                    const chunk = file.slice(start, end);
+
+                    // Считываем кусочек как Base64
+                    const base64Chunk = await new Promise((resolve) => {
+                        const reader = new FileReader();
+                        reader.onload = () => resolve(reader.result.split(',')[1]);
+                        reader.readAsDataURL(chunk);
+                    });
+
+                    // Формируем данные для чанковой загрузки
                     const payload = {
+                        action: 'uploadChunk',
+                        uniqueId: fileUniqueId,
                         filename: file.name,
                         mimeType: file.type,
-                        data: base64Data,
-                        action: 'uploadPhoto'
+                        data: base64Chunk,
+                        chunkIndex: chunkIndex,
+                        isFirstChunk: chunkIndex === 0
                     };
 
-                    fetch(GOOGLE_SCRIPT_URL, {
-                        method: 'POST',
-                        body: JSON.stringify(payload)
-                    })
-                    .then(res => {
-                        uploadedCount++;
-                        progressSpan.innerText = Math.round((uploadedCount / files.length) * 100);
-                        uploadFile(index + 1);
-                    })
-                    .catch(err => {
-                        console.error(err);
-                        alert('Произошла ошибка при загрузке: ' + file.name);
-                        uploadFile(index + 1);
-                    });
+                    // Отправляем кусочек
+                    try {
+                        await fetch(GOOGLE_SCRIPT_URL, {
+                            method: 'POST',
+                            body: JSON.stringify(payload)
+                        });
+
+                        // Обновляем статус загрузки
+                        statusDiv.innerHTML = `Загрузка: ${file.name}<br>Кусочек ${chunkIndex + 1} из ${totalChunks}`;
+
+                    } catch (err) {
+                        console.error('Ошибка при отправке кусочка:', err);
+                        alert(`Ошибка при загрузке файла "${file.name}" на этапе отправки частей. Попробуйте снова.`);
+                        btn.disabled = false;
+                        statusDiv.style.display = 'none';
+                        return; // Прерываем всю загрузку
+                    }
+                }
+
+                // После загрузки всех кусочков, просим сервер их объединить
+                statusDiv.innerHTML = `Файл ${file.name} загружен.<br>Объединяем части...`;
+                const mergePayload = {
+                    action: 'mergeChunks',
+                    uniqueId: fileUniqueId,
+                    filename: file.name,
+                    mimeType: file.type
                 };
-                reader.readAsDataURL(file);
+
+                try {
+                    const mergeResponse = await fetch(GOOGLE_SCRIPT_URL, {
+                        method: 'POST',
+                        body: JSON.stringify(mergePayload)
+                    });
+                    const mergeResult = await mergeResponse.json();
+
+                    if (mergeResult.result === 'error') {
+                        throw new Error(mergeResult.message);
+                    }
+                    console.log(`Файл ${file.name} успешно объединен.`);
+
+                } catch (err) {
+                    console.error('Ошибка при объединении файлов на сервере:', err);
+                    alert(`Ошибка при загрузке файла "${file.name}". Он слишком велик для обработки сервером (лимит ~50МБ). Попробуйте уменьшить размер видео.`);
+                    btn.disabled = false;
+                    statusDiv.style.display = 'none';
+                    return; // Прерываем
+                }
             }
-            uploadFile(0);
+
+            // Финал
+            alert('Все файлы успешно и конфиденциально отправлены молодожёнам! Спасибо!');
+            btn.disabled = false;
+            statusDiv.style.display = 'none';
+            fileInput.value = ''; // очищаем поле
         }
 
         function startPetalsFalling() {
