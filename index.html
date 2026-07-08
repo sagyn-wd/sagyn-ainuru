@@ -9,14 +9,13 @@
         * { box-sizing: border-box; margin: 0; padding: 0; }
 
         body, html {
-    height: 100%;
-    background: #f4c4f3;  /* fallback for old browsers */
-    background: -webkit-linear-gradient(to right, #fc67fa, #f4c4f3);  /* Chrome 10-25, Safari 5.1-6 */
-    background: linear-gradient(to right, #fc67fa, #f4c4f3); /* W3C, IE 10+/ Edge, Firefox 16+, Chrome 26+, Opera 12+, Safari 7+ */
-    color: #2A2F35;
-    font-family: 'Cormorant Garamond', serif;
-    overflow-x: hidden;
-}
+            height: 100%;
+            background: #f4c4f3;  /* fallback for old browsers */
+            background: -webkit-linear-gradient(to right, #fc67fa, #f4c4f3);  /* Chrome 10-25, Safari 5.1-6 */
+            background: linear-gradient(to right, #fc67fa, #f4c4f3); /* W3C, IE 10+/ Edge, Firefox 16+, Chrome 26+, Opera 12+, Safari 7+ */
+            color: #2A2F35;
+            font-family: 'Cormorant Garamond', serif;
+            overflow-x: hidden;
         }
         
         /* АНИМАЦИЯ ЛЕПЕСТКОВ */
@@ -37,7 +36,7 @@
             100% { top: 105vh; transform: translateX(100px) rotate(360deg) scale(0.6); opacity: 0; }
         }
 
-        /* ЭФФЕКТ СЕРДЕЧЕК */
+        /* ЭФФЕКТ СЕРДЕЧЕК ПРИ КЛИКЕ */
         .heart-particle {
             position: fixed;
             pointer-events: none;
@@ -49,37 +48,52 @@
             transition: transform 2s cubic-bezier(0.1, 0.8, 0.3, 1), opacity 2s ease-out;
         }
 
+        /* ЭФФЕКТ МЕРЦАЮЩИХ СЕРДЕЧЕК-ЗВЁЗД НА ФОНЕ */
+        .bg-heart-star {
+            position: fixed;
+            pointer-events: none;
+            z-index: 2;
+            background: radial-gradient(circle at 35% 35%, #ffb3c1, #ff4d6d);
+            clip-path: path('M12 4.419c-2.426-3.484-7.208-3.484-9.633 0-2.508 3.612-2.508 9.471 0 13.084l9.633 9.497 9.633-9.497c2.508-3.613 2.508-9.472 0-13.084-2.425-3.484-7.207-3.484-9.633 0z');
+            opacity: 0;
+            animation: twinkleHeart 5s infinite ease-in-out;
+        }
+        @keyframes twinkleHeart {
+            0% { opacity: 0; transform: scale(0.3) rotate(0deg); }
+            50% { opacity: 0.5; transform: scale(1) rotate(15deg); }
+            100% { opacity: 0; transform: scale(0.3) rotate(0deg); }
+        }
+
         /* ЭКРАН С КОНВЕРТОМ */
         #envelope-screen {
-    position: fixed;
-    top: 0; left: 0; width: 100%; height: 100%;
-    background: #f4c4f3;  /* fallback for old browsers */
-    background: -webkit-linear-gradient(to right, #fc67fa, #f4c4f3);  /* Chrome 10-25, Safari 5.1-6 */
-    background: linear-gradient(to right, #fc67fa, #f4c4f3); /* W3C, IE 10+/ Edge, Firefox 16+, Chrome 26+, Opera 12+, Safari 7+ */
-    display: flex;
-    flex-direction: column;
-    justify-content: center;
-    align-items: center;
-    z-index: 99999;
-    cursor: pointer;
-}
+            position: fixed;
+            top: 0; left: 0; width: 100%; height: 100%;
+            background: #f4c4f3;
+            background: -webkit-linear-gradient(to right, #fc67fa, #f4c4f3);
+            background: linear-gradient(to right, #fc67fa, #f4c4f3);
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            z-index: 99999;
+            cursor: pointer;
+        }
 
-     .envelope {
-    display: flex !important;
-    flex-direction: column;
-    justify-content: center;
-    align-items: center;
-    position: relative;
-    width: 440px !important; 
-    height: 280px !important;
-    max-width: 92%;
-    background-color: #FFFFFF !important; 
-    background: #FFFFFF !important;
-    box-shadow: 0 35px 85px rgba(0,0,0,0.25) !important; 
-    border-radius: 12px;
-    border: 1px solid #EAE2D5;
-    z-index: 10;
-}
+        .envelope {
+            display: flex !important;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            position: relative;
+            width: 440px !important; 
+            height: 280px !important;
+            max-width: 92%;
+            background-color: #FFFFFF !important; 
+            background: #FFFFFF !important;
+            box-shadow: 0 35px 85px rgba(0,0,0,0.25) !important; 
+            border-radius: 12px;
+            border: 1px solid #EAE2D5;
+            z-index: 10;
         }
 
         .envelope::before {
@@ -379,7 +393,6 @@
         </div>
     </div>
 
-    <!-- ИСПРАВЛЕННЫЙ ТАЙМЛАЙН (БЕЗ СМАЙЛОВ И СОКРАЩЕНА ПЕРВАЯ СТРОКА) -->
     <div id="page3" class="page">
         <div class="content-card">
             <h2>Программа вечера</h2>
@@ -405,7 +418,6 @@
         </div>
     </div>
 
-    <!-- ИСПРАВЛЕННЫЙ ДРЕСС-КОД (БЕЗ КРУГЛЫХ ЦВЕТОВЫХ ШАРОВ) -->
     <div id="page4" class="page">
         <div class="content-card">
             <h2>Пожелания к стилю</h2>
@@ -614,6 +626,31 @@
                 setTimeout(() => petal.remove(), 7000);
             }, 350); 
         }
+
+        // Функция генерации фонового звёздного неба из сердечек
+        function createHeartSky() {
+            const maxHearts = 45; 
+            
+            for (let i = 0; i < maxHearts; i++) {
+                setTimeout(() => {
+                    let heart = document.createElement('div');
+                    heart.className = 'bg-heart-star';
+                    
+                    let size = Math.random() * 12 + 8;
+                    heart.style.width = size + 'px';
+                    heart.style.height = size + 'px';
+                    
+                    heart.style.left = Math.random() * 100 + 'vw';
+                    heart.style.top = Math.random() * 100 + 'vh';
+                    
+                    heart.style.animationDelay = (Math.random() * 5) + 's';
+                    
+                    document.body.appendChild(heart);
+                }, Math.random() * 3000);
+            }
+        }
+
+        window.addEventListener('DOMContentLoaded', createHeartSky);
 
         const weddingDate = new Date('July 31, 2026 17:00:00').getTime();
         setInterval(() => {
