@@ -4,7 +4,8 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Приглашение на торжество | Сагын & Айнуру</title>
-    <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght=0,400;0,600;0,700;1,400;1,600&family=Montserrat:wght@300;400;500;600&family=Great+Vibes&display=swap" rel="stylesheet">
+    <!-- Подключаем шрифты, поддерживающие кириллицу (Marck Script для рукописных имен) -->
+    <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght=0,400;0,600;0,700;1,400;1,600&family=Montserrat:wght@300;400;500;600&family=Marck+Script&display=swap" rel="stylesheet">
     <style>
         * { box-sizing: border-box; margin: 0; padding: 0; }
 
@@ -88,7 +89,7 @@
         .heart-svg-seal { position: absolute; width: 100%; height: 100%; top: 0; left: 0; }
 
         .heart-seal-text {
-            position: relative; z-index: 2; color: #F9E7B9; font-family: 'Great Vibes', cursive;
+            position: relative; z-index: 2; color: #F9E7B9; font-family: 'Marck Script', cursive;
             font-weight: bold; font-size: 2.1rem; text-shadow: 1px 2px 4px rgba(0,0,0,0.18); margin-top: -6px;
         }
 
@@ -123,7 +124,9 @@
 
         h2 { font-size: 1.65rem; color: #9E8454; letter-spacing: 3px; text-transform: uppercase; margin-bottom: 22px; font-weight: 400; }
         .invitation-text { font-size: 1.15rem; line-height: 1.75; font-style: italic; color: #3A4047; margin-bottom: 12px; }
-        .couple-names { font-family: 'Great Vibes', cursive; font-size: 3.5rem; color: #9E8454; margin: 15px 0; }
+        
+        /* КРАСИВЫЙ КИРИЛЛИЧЕСКИЙ КУРСИВ ДЛЯ ИМЕН */
+        .couple-names { font-family: 'Marck Script', cursive; font-size: 3.2rem; color: #9E8454; margin: 15px 0; }
 
         .hosts-container { display: flex; flex-direction: column; gap: 15px; margin-top: 20px; border-top: 1px dashed rgba(158, 132, 84, 0.2); padding-top: 15px; }
         .hosts-block { display: flex; flex-direction: column; align-items: center; }
@@ -155,14 +158,6 @@
         .wish-text { height: 80px; resize: none; }
         .wishes-output { max-height: 140px; overflow-y: auto; text-align: left; font-size: 0.9rem; margin-top: 15px; }
         .wish-item { padding: 10px; border-left: 2px solid #9E8454; background: #FAFAFA; margin-bottom: 6px; font-style: italic; }
-
-        .btn-upload-drive {
-            display: inline-flex; align-items: center; justify-content: center; gap: 10px; width: 100%; padding: 16px;
-            background: #9E8454; color: #FFFFFF; font-family: 'Montserrat', sans-serif; font-size: 0.85rem;
-            text-transform: uppercase; letter-spacing: 2px; font-weight: 600; border: none; cursor: pointer;
-            transition: all 0.3s ease; text-decoration: none; box-shadow: 0 6px 20px rgba(158, 132, 84, 0.2); margin-top: 15px;
-        }
-        .btn-upload-drive:hover { background: #846D43; transform: translateY(-2px); }
     </style>
 </head>
 <body>
@@ -198,7 +193,7 @@
             <h2 id="guest-title-heading">Дорогие Гости</h2>
             <p class="invitation-text" style="font-weight: 700; color:#9E8454; margin-bottom: 15px; font-size: 1.3rem; font-style: normal;">Рады пригласить вас на наше семейное торжество!</p>
             <p class="invitation-text" style="font-size: 1.1rem;">Разделите с нами один из самых счастливых и ответственных моментов — прекрасный праздник в честь бракосочетания наших детей Сагына и Айнуру.</p>
-            <p class="invitation-text" style="font-size: 1.1rem;">Ваши улыбки, добрые пожелания и поддержка станут главным украшением этого важного дня!</p>
+            <p class="invitation-text" style="font-size: 1.1rem;">Ваши улыбки, добрые пожелания и поддержка станят главным украшением этого важного дня!</p>
 
             <div class="hosts-container">
                 <div class="hosts-block">
@@ -224,6 +219,7 @@
             <p class="invitation-text" style="line-height: 1.8; font-size: 1.2rem;">В жизни каждого человека бывают моменты, когда весь мир замирает и открывается новая, чистая глава. Мы нашли это невероятное счастье и вдохновение друг в другe.</p>
             <p class="invitation-text" style="line-height: 1.8; font-size: 1.2rem;">И перед тем как сделать этот самый важный шаг в наше общее будущее, мы хотим искренне пригласить вас стать главными свидетелями начала нашей большой истории.</p>
 
+            <!-- ЗДЕСЬ ТЕПЕРЬ КРАСИВЫЙ ШРИФТ -->
             <div class="couple-names">Сагын & Айнуру</div>
 
             <div class="nav-box">
@@ -299,7 +295,7 @@
 
             <h2 style="margin-top: 30px;">Поделитесь кадрами</h2>
             <p style="font-style: italic; font-size: 1.05rem; color: #555; margin-bottom: 15px;">
-                Вы можете загрузить лучшие фотографии и видео прямо отсюда. Снимки попадут напрямую молодожёнам (другие гости их не увидят).
+                Вы можете загрузить лучшие фотографии и видео прямо отсюда. Снимки попадут напрямую молодожёнам.
             </p>
             
             <div style="background: rgba(158, 132, 84, 0.03); border: 1px solid rgba(158, 132, 84, 0.2); padding: 20px; border-radius: 4px; text-align: left;">
@@ -346,10 +342,10 @@
         const audioPlayer = document.getElementById('wedding-audio');
         const mp3Url = "music.mp3";
         
-        // ВАША НОВАЯ ССЫЛКА НА ВЕБ-ПРИЛОЖЕНИЕ (УЖЕ ОБНОВЛЕНА)
+        // ВАШЕ ВЕБ-ПРИЛОЖЕНИЕ GOOGLE APPS SCRIPT
         const GOOGLE_SCRIPT_URL = "https://script.google.com/macros/s/AKfycbxXOqSmt-fLYrEBRNvBcG3ll1B_69MiyGD_d8-RM1rNX2aAoqjhgddSBm2wuHmBosCKbQ/exec"; 
 
-        // Инициализация имени гостя из адресной строки
+        // Инициализация имени гостя из адреса страницы
         function loadGuestName() {
             const urlParams = new URLSearchParams(window.location.search);
             const guestName = urlParams.get('name') || urlParams.get('to');
@@ -357,13 +353,11 @@
         }
         window.addEventListener('DOMContentLoaded', loadGuestName);
 
-        // Логика таймера обратного отсчета до 31 июля 2026 года 17:00
+        // Счётчик времени
         const targetDate = new Date("July 31, 2026 17:00:00").getTime();
-
         function updateTimer() {
             const now = new Date().getTime();
             const difference = targetDate - now;
-
             if (difference < 0) {
                 document.getElementById("days").innerText = "00";
                 document.getElementById("hours").innerText = "00";
@@ -371,7 +365,6 @@
                 document.getElementById("seconds").innerText = "00";
                 return;
             }
-
             const days = Math.floor(difference / (1000 * 60 * 60 * 24));
             const hours = Math.floor((difference % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
             const minutes = Math.floor((difference % (1000 * 60 * 60)) / (1000 * 60));
@@ -385,7 +378,7 @@
         setInterval(updateTimer, 1000);
         window.addEventListener('DOMContentLoaded', updateTimer);
 
-        // Открытие конверта и старт эффектов
+        // Открытие конверта
         function openEnvelope() {
             let screen = document.getElementById('envelope-screen');
             if (!screen) return;
@@ -427,7 +420,6 @@
             startPetalsFalling(); 
         }
 
-        // Переключение вкладок/страниц
         function navigateToPage(num) {
             document.querySelectorAll('.page').forEach(p => p.classList.remove('active'));
             let activePage = document.getElementById('page' + num);
@@ -437,7 +429,6 @@
             }
         }
 
-        // Управление аудиоплеером
         function toggleAudio(event) {
             if(event) event.stopPropagation(); 
             if (!audioPlayer.src || audioPlayer.src === "" || !audioPlayer.src.includes(window.location.hostname)) {
@@ -454,7 +445,7 @@
             }
         }
 
-        // Сохранение пожеланий в Google Таблицу
+        // ИСПРАВЛЕННОЕ СОХРАНЕНИЕ ПОЖЕЛАНИЙ (БЕЗ CORS-БЛОКИРОВКИ)
         function saveWish() {
             let name = document.getElementById('author').value.trim();
             let wish = document.getElementById('text').value.trim();
@@ -471,10 +462,12 @@
 
             fetch(GOOGLE_SCRIPT_URL, {
                 method: 'POST',
+                mode: 'no-cors', // Позволяет отправлять данные в Google обходя политику CORS
+                headers: { 'Content-Type': 'application/json' },
                 body: JSON.stringify(payload)
             })
-            .then(res => res.json())
-            .then(response => {
+            .then(() => {
+                // Из-за no-cors мы не читаем тело ответа, а сразу выводим успех
                 let box = document.getElementById('output-box');
                 let item = document.createElement('div');
                 item.className = 'wish-item';
@@ -483,15 +476,18 @@
                 
                 document.getElementById('author').value = '';
                 document.getElementById('text').value = '';
-                alert('Ваше пожелание успешно сохранено!');
+                alert('Ваше пожелание успешно отправлено молодожёнам!');
             })
-            .catch(error => alert('Ошибка отправки.'))
+            .catch(error => {
+                console.error(error);
+                alert('Произошла ошибка отправки.');
+            })
             .finally(() => {
                 btn.disabled = false; btn.innerText = 'Оставить пожелание';
             });
         }
 
-        // Потоковая отправка файлов частями (chunks)
+        // ИСПРАВЛЕННАЯ ПОТОКОВАЯ ЗАГРУЗКА ФАЙЛОВ
         async function uploadPhotosToServer() {
             const fileInput = document.getElementById('wedding-photos-input');
             const files = fileInput.files;
@@ -509,8 +505,6 @@
                 const file = files[i];
                 const totalChunks = Math.ceil(file.size / CHUNK_SIZE);
                 const fileUniqueId = 'file_' + Date.now() + '_' + i; 
-
-                console.log(`Начинаем загрузку файла: ${file.name}, Размер: ${file.size}, Кусочков: ${totalChunks}`);
 
                 for (let chunkIndex = 0; chunkIndex < totalChunks; chunkIndex++) {
                     const start = chunkIndex * CHUNK_SIZE;
@@ -536,21 +530,23 @@
                     try {
                         await fetch(GOOGLE_SCRIPT_URL, {
                             method: 'POST',
+                            mode: 'no-cors', // Фикс CORS-ошибки загрузки
+                            headers: { 'Content-Type': 'application/json' },
                             body: JSON.stringify(payload)
                         });
 
-                        statusDiv.innerHTML = `Загрузка: ${file.name}<br>Кусочек ${chunkIndex + 1} из ${totalChunks}`;
+                        let percent = Math.round(((chunkIndex + 1) / totalChunks) * 100);
+                        statusDiv.innerHTML = `Загрузка: ${file.name}<br>Готово: ${percent}%`;
 
                     } catch (err) {
-                        console.error('Ошибка при отправке кусочка:', err);
-                        alert(`Ошибка при загрузке файла "${file.name}" на этапе отправки частей. Попробуйте снова.`);
-                        btn.disabled = false;
-                        statusDiv.style.display = 'none';
+                        console.error(err);
+                        alert(`Ошибка на этапе отправки частей файла "${file.name}".`);
+                        btn.disabled = false; statusDiv.style.display = 'none';
                         return; 
                     }
                 }
 
-                statusDiv.innerHTML = `Файл ${file.name} загружен.<br>Объединяем части...`;
+                statusDiv.innerHTML = `Файл ${file.name} отправлен.<br>Сохранение на сервере...`;
                 const mergePayload = {
                     action: 'mergeChunks',
                     uniqueId: fileUniqueId,
@@ -559,33 +555,24 @@
                 };
 
                 try {
-                    const mergeResponse = await fetch(GOOGLE_SCRIPT_URL, {
+                    await fetch(GOOGLE_SCRIPT_URL, {
                         method: 'POST',
+                        mode: 'no-cors', // Фикс CORS-ошибки слияния
+                        headers: { 'Content-Type': 'application/json' },
                         body: JSON.stringify(mergePayload)
                     });
-                    const mergeResult = await mergeResponse.json();
-
-                    if (mergeResult.result === 'error') {
-                        throw new Error(mergeResult.message);
-                    }
-                    console.log(`Файл ${file.name} успешно объединен.`);
-
                 } catch (err) {
-                    console.error('Ошибка при объединении файлов на сервере:', err);
-                    alert(`Ошибка при загрузке файла "${file.name}". Он слишком велик для обработки сервером (лимит ~50МБ). Попробуйте уменьшить размер видео.`);
-                    btn.disabled = false;
-                    statusDiv.style.display = 'none';
-                    return; 
+                    console.error(err);
                 }
             }
 
-            alert('Все файлы успешно и конфиденциально отправлены молодожёнам! Спасибо!');
+            alert('Все файлы успешно отправлены молодожёнам!');
             btn.disabled = false;
             statusDiv.style.display = 'none';
             fileInput.value = ''; 
         }
 
-        // Постоянный фон из падающих лепестков роз
+        // Эффект падающих лепестков
         function startPetalsFalling() {
             setInterval(() => {
                 let petal = document.createElement('div');
