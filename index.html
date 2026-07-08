@@ -290,10 +290,29 @@
         .wishes-output { max-height: 130px; overflow-y: auto; text-align: left; font-size: 0.9rem; margin-top: 15px; }
         .wish-item { padding: 10px; border-left: 2px solid #9E8454; background: #FAFAFA; margin-bottom: 6px; font-style: italic; }
 
-        /* ФОТО */
-        .upload-zone { border: 1px dashed #9E8454; padding: 20px 15px; cursor: pointer; background: #FFFFFF; margin-bottom: 15px; font-family: 'Montserrat', sans-serif; font-size: 0.8rem; color: #7A7469; }
-        .gallery-preview { display: grid; grid-template-columns: repeat(3, 1fr); gap: 6px; margin-top: 10px; }
-        .gallery-preview img { width: 100%; height: 70px; object-fit: cover; border-radius: 2px; }
+        /* СТИЛЬ ДЛЯ КНОПКИ ЗАГРУЗКИ ФОТО */
+        .btn-upload-drive {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            gap: 10px;
+            width: 100%;
+            padding: 16px;
+            background: #9E8454;
+            color: #FFFFFF;
+            font-family: 'Montserrat', sans-serif;
+            font-size: 0.85rem;
+            text-transform: uppercase;
+            letter-spacing: 2px;
+            font-weight: 600;
+            border: none;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            text-decoration: none;
+            box-shadow: 0 6px 20px rgba(158, 132, 84, 0.2);
+            margin-top: 15px;
+        }
+        .btn-upload-drive:hover { background: #846D43; transform: translateY(-2px); }
     </style>
 </head>
 <body>
@@ -439,16 +458,14 @@
             </div>
 
             <h2 style="margin-top: 30px;">Поделитесь кадрами</h2>
-            <p style="font-style: italic; font-size: 1.05rem; color: #555; margin-bottom: 15px;">Сюда вы сможете загрузить фотографии с нашей свадьбы!</p>
+            <p style="font-style: italic; font-size: 1.05rem; color: #555; margin-bottom: 15px;">Вы можете загрузить лучшие фотографии и видео прямо в наш свадебный альбом на Google Диске!</p>
             
-            <div class="upload-zone" onclick="document.getElementById('file-input').click()">
-                <span style="font-size: 1.8rem; display:block; margin-bottom:4px;">📸</span>
-                Нажмите для выбора фото
-                <input type="file" id="file-input" accept="image/*" multiple style="display:none;" onchange="previewImages(event)">
-            </div>
-            <div class="gallery-preview" id="gallery-box"></div>
+            <!-- ГОТОВАЯ ССЫЛКА НА ВАШ GOOGLE ДИСК -->
+            <a id="drive-upload-link" href="https://drive.google.com/drive/folders/1yM5AbdGGDJ1eJWH_p2tU-T1fNaInMkLe?usp=sharing" target="_blank" class="btn-upload-drive">
+                <span>📸</span> Загрузить фото в альбом
+            </a>
 
-            <div class="nav-box">
+            <div class="nav-box" style="margin-top: 40px;">
                 <button class="btn-nav" onclick="navigateToPage(5)">Назад</button>
                 <button class="btn-nav" onclick="navigateToPage(7)">Далее</button>
             </div>
@@ -476,7 +493,10 @@
         let isMusicPlaying = false;
         const audioPlayer = document.getElementById('wedding-audio');
         const mp3Url = "music.mp3";
-        const FORMSPREE_URL = "https://formspree.io/f/mwvdyglk";
+
+        // ================= ВАШИ ИНТЕГРИРОВАННЫЕ ССЫЛКИ =================
+        const GOOGLE_SCRIPT_URL = "https://script.google.com/macros/s/AKfycbyrIsYDqqnuZR7Y_9s68uE9aptlGDOK7g-xxQK_JVPoYpW3Ym1bZe5dupBBdKPyjZ8aRA/exec"; 
+        // ===============================================================
 
         function loadGuestName() {
             const urlParams = new URLSearchParams(window.location.search);
@@ -523,7 +543,7 @@
                 isMusicPlaying = true;
                 document.getElementById('music-status-text').innerText = "Музыка играет";
             }).catch(e => {
-                console.log("Браузер принудительно заблокировал автозвук. Ждем ручного нажатия гостя на плашку.");
+                console.log("Автозвук заблокирован браузером.");
                 document.getElementById('music-status-text').innerText = "Музыка на паузе";
             });
 
@@ -555,14 +575,14 @@
             } else {
                 audioPlayer.play().then(() => {
                     isMusicPlaying = true;
-                    statusText.innerText = "Music играет";
+                    statusText.innerText = "Музыка играет";
                 }).catch(err => {
-                    console.error("Ошибка воспроизведения:", err);
+                    console.error(err);
                 });
             }
         }
 
-        // ОТПРАВКА ПОЖЕЛАНИЙ ЧЕРЕЗ FORMSPREE
+        // БЕСПЛАТНАЯ ОТПРАВКА В GOOGLE ТАБЛИЦУ
         function saveWish() {
             let name = document.getElementById('author').value.trim();
             let wish = document.getElementById('text').value.trim();
@@ -572,80 +592,29 @@
             btn.disabled = true;
             btn.innerText = 'Отправка...';
 
-            let formData = new FormData();
-            formData.append('Тип данных', 'Новое пожелание');
-            formData.append('Имя гостя', name);
-            formData.append('Пожелание', wish);
+            let urlWithParams = GOOGLE_SCRIPT_URL + "?author=" + encodeURIComponent(name) + "&text=" + encodeURIComponent(wish);
 
-            fetch(FORMSPREE_URL, {
-                method: 'POST',
-                body: formData,
-                headers: { 'Accept': 'application/json' }
+            fetch(urlWithParams, {
+                method: 'POST'
             })
             .then(response => {
-                if(response.ok) {
-                    let box = document.getElementById('output-box');
-                    let item = document.createElement('div');
-                    item.className = 'wish-item';
-                    item.innerHTML = `<strong>${name}:</strong> ${wish}`;
-                    box.insertBefore(item, box.firstChild);
-                    
-                    document.getElementById('author').value = '';
-                    document.getElementById('text').value = '';
-                    alert('Ваше пожелание успешно отправлено!');
-                } else {
-                    alert('Произошла ошибка при отправке пожелания.');
-                }
+                let box = document.getElementById('output-box');
+                let item = document.createElement('div');
+                item.className = 'wish-item';
+                item.innerHTML = `<strong>${name}:</strong> ${wish}`;
+                box.insertBefore(item, box.firstChild);
+                
+                document.getElementById('author').value = '';
+                document.getElementById('text').value = '';
+                alert('Ваше пожелание успешно сохранено в Google Таблицу!');
             })
             .catch(error => {
                 console.error('Ошибка:', error);
-                alert('Не удалось отправить. Проверьте интернет соединение.');
+                alert('Ошибка отправки. Убедитесь, что скрипт развернут правильно.');
             })
             .finally(() => {
                 btn.disabled = false;
                 btn.innerText = 'Оставить пожелание';
-            });
-        }
-
-        // ОТПРАВКА ФОТОГРАФИЙ ЧЕРЕЗ FORMSPREE
-        function previewImages(event) {
-            let files = event.target.files;
-            let box = document.getElementById('gallery-box');
-            if (files.length === 0) return;
-
-            // Сразу показываем миниатюры локально для гостя
-            for(let i=0; i<files.length; i++) {
-                let reader = new FileReader();
-                reader.onload = function(e) {
-                    let img = document.createElement('img');
-                    img.src = e.target.result;
-                    box.insertBefore(img, box.firstChild);
-                }
-                reader.readAsDataURL(files[i]);
-            }
-
-            // Отправляем файлы на Formspree
-            let formData = new FormData();
-            formData.append('Тип данных', 'Фотографии со свадьбы');
-            for (let i = 0; i < files.length; i++) {
-                formData.append('photo_' + i, files[i]);
-            }
-
-            fetch(FORMSPREE_URL, {
-                method: 'POST',
-                body: formData,
-                headers: { 'Accept': 'application/json' }
-            })
-            .then(response => {
-                if (response.ok) {
-                    alert('Фотографии успешно отправлены!');
-                } else {
-                    alert('Не удалось загрузить фотографии на сервер Formspree. Убедитесь, что у вас платный тариф (поскольку Formspree принимает файлы только на платных планах).');
-                }
-            })
-            .catch(error => {
-                console.error('Ошибка при отправке файлов:', error);
-                alert('Ошибка сети при загрузке файлов.');
             });
         }
 
