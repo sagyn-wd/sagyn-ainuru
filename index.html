@@ -18,7 +18,7 @@
             -webkit-font-smoothing: antialiased;
         }
     
-        /* СВЕРХРЕАЛИСТИЧНЫЕ 3D ЛЕПЕСТКИ РОЗ */
+        /* Оптимизированные лепестки */
         .rose-petal {
             position: fixed;
             top: -50px;
@@ -194,7 +194,7 @@
 
             <div class="hosts-container">
                 <div class="hosts-block">
-                    <div class="hosts-title">Хозяева торжества</div>
+                    <div class="hosts-title" style="font-family: 'Great Vibes', cursive;">Хозяева торжества</div>
                     <div class="hosts-names">Арстан & Нурайым</div>
                     <div class="hosts-status">(Родители жениха)</div>
                 </div>
@@ -334,7 +334,8 @@
             let centerX = window.innerWidth / 2;
             let centerY = window.innerHeight / 2;
 
-            for (let i = 0; i < 45; i++) {
+            // Ограничено количество частиц для стабильности
+            for (let i = 0; i < 20; i++) {
                 let p = document.createElement('div');
                 p.className = 'petal-particle';
                 let sizeW = Math.random() * 18 + 14;
@@ -444,6 +445,7 @@
                 petal.style.width = baseSize + 'px';
                 petal.style.height = baseSize * (Math.random() * 0.2 + 0.85) + 'px'; 
                 
+                // Оптимизация z-index и отрисовки
                 let depthRand = Math.random();
                 if (depthRand < 0.25) {
                     petal.style.zIndex = "2"; petal.style.filter = "blur(1.5px)"; petal.style.transform = `scale(0.6)`; petal.style.opacity = "0.6";
@@ -455,7 +457,7 @@
                 petal.style.animationDelay = `-${Math.random() * 4}s, -${Math.random() * 2}s`;
                 document.body.appendChild(petal);
                 setTimeout(() => petal.remove(), fallDuration * 1000);
-            }, 240);
+            }, 500); // Интервал увеличен для лучшей производительности
         }
 
         const weddingDate = new Date('July 31, 2026 17:00:00').getTime();
