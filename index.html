@@ -23,7 +23,7 @@
             position: fixed;
             top: -50px;
             pointer-events: none;
-            will-change: transform, top, opacity;
+            will-change: transform;
             background: radial-gradient(circle at 35% 25%, #fff1f3 0%, #ffa6be 50%, #f27d9a 100%);
             border-radius: 50% 50% 45% 45% / 40% 40% 60% 60%;
             box-shadow: 
@@ -41,11 +41,11 @@
         }
 
         @keyframes petalSway {
-            0% { transform: translateX(0) rotateX(0deg) rotateY(0deg) rotateZ(0deg); }
-            25% { transform: translateX(45px) rotateX(65deg) rotateY(45deg) rotateZ(35deg); }
-            50% { transform: translateX(-35px) rotateX(135deg) rotateY(160deg) rotateZ(85deg); }
-            75% { transform: translateX(30px) rotateX(75deg) rotateY(290deg) rotateZ(140deg); }
-            100% { transform: translateX(-10px) rotateX(180deg) rotateY(360deg) rotateZ(210deg); }
+            0% { transform: translate3d(0, 0, 0) rotateX(0deg) rotateY(0deg) rotateZ(0deg); }
+            25% { transform: translate3d(45px, 0, 0) rotateX(65deg) rotateY(45deg) rotateZ(35deg); }
+            50% { transform: translate3d(-35px, 0, 0) rotateX(135deg) rotateY(160deg) rotateZ(85deg); }
+            75% { transform: translate3d(30px, 0, 0) rotateX(75deg) rotateY(290deg) rotateZ(140deg); }
+            100% { transform: translate3d(-10px, 0, 0) rotateX(180deg) rotateY(360deg) rotateZ(210deg); }
         }
 
         .petal-particle {
@@ -57,7 +57,7 @@
             border-radius: 50% 55% 45% 50% / 40% 40% 60% 60%;
             opacity: 1;
             box-shadow: inset -2px -2px 5px rgba(220, 130, 150, 0.35), inset 1px 1px 3px rgba(255, 255, 255, 0.8), 0 6px 15px rgba(160, 120, 130, 0.15);
-            transition: transform 2.8s cubic-bezier(0.075, 0.82, 0.165, 1), opacity 2.8s ease-out;
+            transition: transform 2.5s cubic-bezier(0.075, 0.82, 0.165, 1), opacity 2.5s ease-out;
         }
 
         #envelope-screen {
@@ -334,39 +334,45 @@
             let centerX = window.innerWidth / 2;
             let centerY = window.innerHeight / 2;
 
-            // Ограничено количество частиц для стабильности
-            for (let i = 0; i < 20; i++) {
-                let p = document.createElement('div');
-                p.className = 'petal-particle';
-                let sizeW = Math.random() * 18 + 14;
-                let sizeH = sizeW * (Math.random() * 0.15 + 0.85);
-                p.style.width = sizeW + 'px'; p.style.height = sizeH + 'px';
-                p.style.left = centerX - (sizeW/2) + 'px'; p.style.top = centerY - (sizeH/2) + 'px';
-                document.body.appendChild(p);
-
-                let angle = Math.random() * Math.PI * 2;
-                let distance = Math.random() * 260 + 120; 
-                let destX = Math.cos(angle) * distance;
-                let destY = Math.sin(angle) * distance - (Math.random() * 100); 
-
+            for (let i = 0; i < 12; i++) {
                 setTimeout(() => {
-                    p.style.transform = `translate(${destX}px, ${destY}px) rotateX(${Math.random() * 360}deg) rotateY(${Math.random() * 360}deg) scale(0.4)`;
-                    p.style.opacity = '0';
-                }, 30);
-                setTimeout(() => p.remove(), 2800);
+                    let p = document.createElement('div');
+                    p.className = 'petal-particle';
+                    let sizeW = Math.random() * 14 + 12;
+                    let sizeH = sizeW * (Math.random() * 0.15 + 0.85);
+                    p.style.width = sizeW + 'px'; 
+                    p.style.height = sizeH + 'px';
+                    p.style.left = centerX - (sizeW/2) + 'px'; 
+                    p.style.top = centerY - (sizeH/2) + 'px';
+                    p.style.transform = 'translate3d(0,0,0)';
+                    document.body.appendChild(p);
+
+                    let angle = Math.random() * Math.PI * 2;
+                    let distance = Math.random() * 200 + 100; 
+                    let destX = Math.cos(angle) * distance;
+                    let destY = Math.sin(angle) * distance - (Math.random() * 60); 
+
+                    requestAnimationFrame(() => {
+                        p.style.transform = `translate3d(${destX}px, ${destY}px, 0) rotateX(${Math.random() * 360}deg) rotateY(${Math.random() * 360}deg) scale(0.4)`;
+                        p.style.opacity = '0';
+                    });
+                    setTimeout(() => p.remove(), 2500);
+                }, i * 15);
             }
 
             screen.style.display = 'none';
-            audioPlayer.src = mp3Url;
-            audioPlayer.play().then(() => {
-                isMusicPlaying = true;
-                document.getElementById('music-status-text').innerText = "Музыка играет";
-            }).catch(e => {
-                document.getElementById('music-status-text').innerText = "Музыка на паузе";
-            });
-
             navigateToPage(1); 
-            startPetalsFalling(); 
+
+            setTimeout(() => {
+                audioPlayer.src = mp3Url;
+                audioPlayer.play().then(() => {
+                    isMusicPlaying = true;
+                    document.getElementById('music-status-text').innerText = "Музыка играет";
+                }).catch(e => {
+                    document.getElementById('music-status-text').innerText = "Музыка на паузе";
+                });
+                startPetalsFalling(); 
+            }, 200);
         }
 
         function navigateToPage(num) {
@@ -374,7 +380,7 @@
             let activePage = document.getElementById('page' + num);
             if (activePage) {
                 activePage.classList.add('active');
-                window.scrollTo({ top: 0, behavior: 'smooth' });
+                window.scrollTo({ top: 0, behavior: 'auto' });
             }
         }
 
@@ -430,34 +436,44 @@
             });
         }
 
+        let petalInterval;
         function startPetalsFalling() {
-            setInterval(() => {
+            if (petalInterval) clearInterval(petalInterval);
+            
+            petalInterval = setInterval(() => {
+                if (document.hidden) return; 
+                if (document.querySelectorAll('.rose-petal').length > 25) return;
+
                 let petal = document.createElement('div');
                 petal.className = 'rose-petal';
                 petal.style.left = Math.random() * window.innerWidth + 'px';
                 
-                let fallDuration = Math.random() * 5 + 8; 
+                let fallDuration = Math.random() * 6 + 9; 
                 let swayDuration = Math.random() * 3 + 4; 
                 petal.style.animationName = 'petalFall, petalSway';
                 petal.style.animationDuration = `${fallDuration}s, ${swayDuration}s`;
                 
-                let baseSize = Math.random() * 16 + 14; 
+                let baseSize = Math.random() * 14 + 12; 
                 petal.style.width = baseSize + 'px';
                 petal.style.height = baseSize * (Math.random() * 0.2 + 0.85) + 'px'; 
                 
-                // Оптимизация z-index и отрисовки
                 let depthRand = Math.random();
                 if (depthRand < 0.25) {
-                    petal.style.zIndex = "2"; petal.style.filter = "blur(1.5px)"; petal.style.transform = `scale(0.6)`; petal.style.opacity = "0.6";
+                    petal.style.zIndex = "2"; 
+                    petal.style.transform = `translate3d(0,0,0) scale(0.6)`; 
+                    petal.style.opacity = "0.5";
                 } else if (depthRand > 0.85) {
-                    petal.style.zIndex = "1000"; petal.style.filter = "blur(2.5px)"; petal.style.transform = `scale(1.5)`; petal.style.opacity = "0.75";
+                    petal.style.zIndex = "1000"; 
+                    petal.style.transform = `translate3d(0,0,0) scale(1.3)`; 
+                    petal.style.opacity = "0.7";
                 } else {
-                    petal.style.zIndex = "20"; petal.style.filter = "none"; petal.style.transform = `scale(1)`;
+                    petal.style.zIndex = "20"; 
+                    petal.style.transform = `translate3d(0,0,0) scale(1)`;
                 }
                 petal.style.animationDelay = `-${Math.random() * 4}s, -${Math.random() * 2}s`;
                 document.body.appendChild(petal);
                 setTimeout(() => petal.remove(), fallDuration * 1000);
-            }, 500); // Интервал увеличен для лучшей производительности
+            }, 600); 
         }
 
         const weddingDate = new Date('July 31, 2026 17:00:00').getTime();
